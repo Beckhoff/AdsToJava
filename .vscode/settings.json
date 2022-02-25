@@ -1,0 +1,16 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/cpp",
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.hmc": "cpp",
+        "limits": "cpp",
+        "xstring": "cpp"
+    },
+    "search.exclude": {
+        ".git": true,
+        "node_modules": true,
+        "build": true,
+        "jdk": true,
+        "target": true
+    }
+}

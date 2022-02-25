@@ -1,0 +1,28 @@
+# Some usual suspects
+*.bak
+*.bin
+*.zip
+
+# TwinCAT files
+*.compiled-library
+*.compileinfo
+*.tmcRefac
+*.library
+*.project.~u
+*.tclrs
+*.tnzip
+*.tpy
+*.tpzip
+*.tsproj.bk?
+*.tszip
+*.xti.bk?
+LineIDs.dbg
+_Boot/
+_CompileInfo/
+_Libraries/
+_ModuleInstall/
+_Deployment/
+_Repository/
+
+# User-specific files
+*.suo

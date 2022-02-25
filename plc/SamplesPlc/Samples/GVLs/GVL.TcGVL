@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <GVL Name="GVL" Id="{a8b96509-d513-432a-bd43-f4f353f4c5fa}">
+    <Declaration><![CDATA[VAR_GLOBAL
+	// Sample 05
+	PLCVarBYTE       AT %MB500    : BYTE;
+	PLCVarWORD       AT %MB502    : WORD;
+	PLCVarDWORD	     AT %MB504    : DWORD;
+	PLCVarBOOL       AT %MX508.0  : BOOL;
+	PLCVarINT        AT %MB510    : INT;
+	PLCVarUINT       AT %MB512    : UINT;
+	PLCVarSINT       AT %MB514    : SINT;
+	PLCVarUSINT      AT %MB516    : USINT;
+	PLCVarDINT       AT %MB520    : DINT;
+	PLCVarUDINT      AT %MB524    : UDINT := 1234;
+	PLCVarREAL       AT %MB528    : REAL;
+	PLCVarLREAL      AT %MB536    : LREAL;
+	PLCVarUDINTArray	          : ARRAY[0..5] OF UDINT :=[ 5,4,3,2,1,0];
+
+	// Sample 11
+	SPSVar1                       : DWORD;
+	SPSVar2                       : DWORD;
+	SPSVar3                       : DWORD;
+	SPSVar4                       : DWORD;
+
+	// Sample 12
+	bVar01           AT %QX1200.0 : BOOL;
+	bVar02           AT %QX1200.1 : BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

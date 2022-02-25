@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="MAIN" Id="{a10fe0ec-1a9a-4614-adb9-28852db07e4e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	sintVal 	AT 	%MB0 	: SINT;
+	intVal		AT	%MB8 	: INT;
+	dintVal 	AT	%MB16 	: DINT;
+	boolVal		AT	%MX24.0	: BOOL;
+	floatVal 	AT	%MB32	: REAL;
+	doubleVal	AT	%MB40	: LREAL;
+	stringVal	AT	%MB48	: STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

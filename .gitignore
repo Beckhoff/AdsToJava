@@ -1,0 +1,8 @@
+build/
+build_win32/
+build_x64/
+target/
+dist/
+node_modules/
+Testing/
+samples/[0-9][0-9]_*/*.class

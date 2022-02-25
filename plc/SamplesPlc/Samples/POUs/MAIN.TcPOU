@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="MAIN" Id="{0797d2be-57b5-49b4-bef2-d1028aeca044}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	// Sample 02
+	PLCVar2                : DWORD;
+	TP_2                   : TP;
+	TOGGEL2                : BOOL;
+	
+	// Sample 03
+ 	PLCVar3   AT %MB300    : ARRAY [0..99] OF INT;
+	Index                  : BYTE;
+	
+	// Sample 04
+	PLCVar4   AT %MB400    : PLCStruct;
+	
+	// Sample 06
+	PLCVar6   AT %MD600    : DWORD;
+	
+	// Sample 07 & Sample 08 & Sample 09
+	PLCVar    AT %MD0      : DWORD;
+	TP_1                   : TP;
+	TOGGEL                 : BOOL;
+	
+	// Sample 12
+	i                      : INT;
+	
+	// Sample 13
+	uintValue AT %MB1300   : UINT := 54321;
+	boolValue AT %MX1308.0 : BOOL := TRUE;
+	dintValue AT %MB1316   : DINT := -12345678;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Sample 02
+TOGGEL2 := NOT TOGGEL;
+TP_2( IN := TOGGEL2, PT := T#1S);
+IF (TP_2.Q = 0) THEN
+	PLCVar2 := PLCVar2 + 1;
+END_IF
+
+// Sample 03
+FOR Index := 0 TO 99 DO
+  PLCVar3[Index] := UINT_TO_INT(3500 + INDEX);
+END_FOR
+
+// Sample 07 & Sample 08 & Sample 09
+TOGGEL := NOT TOGGEL;
+TP_1(IN := TOGGEL, PT := T#1S);
+IF (TP_1.Q = 0) THEN
+	PLCVar := PLCVar + 1;
+END_IF
+
+// Sample 12
+i := i+1;
+IF i >= 0 THEN
+	bVar01 := TRUE;
+	bVar02 := FALSE;
+END_IF
+IF i >= 100 THEN
+	bVar01 := FALSE;
+	bVar02 := TRUE;
+END_IF
+IF i >= 200 THEN
+	i := 0;
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="17" Count="0" />
+      <LineId Id="12" Count="4" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="46" Count="3" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="77" Count="3" />
+      <LineId Id="82" Count="3" />
+      <LineId Id="87" Count="2" />
+      <LineId Id="74" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
