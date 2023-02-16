@@ -5,7 +5,7 @@
 class JObjJNIBool : public JObjectBase {
   public:
     JObjJNIBool(JNIEnv* lEnv, jobject lJObject);
-    ~JObjJNIBool();
+    ~JObjJNIBool() = default;
 
     void setValuesInJObject(const bool* pBool);
     void getValuesOutJObject(bool* pBool);

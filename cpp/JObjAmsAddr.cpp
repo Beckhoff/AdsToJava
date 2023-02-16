@@ -5,8 +5,6 @@
 JObjAmsAddr::JObjAmsAddr(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjAmsAddr::~JObjAmsAddr() = default;
-
 void JObjAmsAddr::setValuesInJObject(PAmsAddr pAddr) {
     setJObjectValue("mPort", static_cast<jint>(pAddr->port));
 
@@ -29,7 +27,7 @@ void JObjAmsAddr::setValuesInJObject(PAmsAddr pAddr) {
 }
 
 void JObjAmsAddr::getValuesOutJObject(PAmsAddr pAddr) {
-    int lInt;
+    int lInt = 0;
     getJObjectValue("mPort", &lInt);
     pAddr->port = (lInt < std::numeric_limits<unsigned short>::min() ||
                    lInt > std::numeric_limits<unsigned short>::max())
@@ -48,10 +46,9 @@ void JObjAmsAddr::getValuesOutJObject(PAmsAddr pAddr) {
         JObjAmsNetId ljObjAmsNetId(mEnv, netId_obj);
         ljObjAmsNetId.getValuesOutJObject(&(pAddr->netId));
     } else {
-        char lChar;
-
         for (size_t i = 0; i < sizeof(pAddr->netId.b) / sizeof(unsigned char);
              ++i) {
+            char lChar = '\0';
             getJObjectValue(("mNetIdPart" + std::to_string(i)).c_str(), &lChar);
             pAddr->netId.b[i] = lChar;
         }

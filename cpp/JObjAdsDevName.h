@@ -6,7 +6,7 @@
 class JObjAdsDevName : public JObjectBase {
   public:
     JObjAdsDevName(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAdsDevName();
+    ~JObjAdsDevName() = default;
 
     void setValuesInJObject(const char** pAdsDevName);
     void getValuesOutJObject(const char** pAdsDevName);

@@ -6,7 +6,7 @@
 class JObjAdsVersion : public JObjectBase {
   public:
     JObjAdsVersion(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAdsVersion();
+    ~JObjAdsVersion() = default;
 
     void setValuesInJObject(AdsVersion* pAdsVersion);
     void getValuesOutJObject(AdsVersion* pAdsVersion);

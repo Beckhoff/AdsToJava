@@ -5,7 +5,7 @@
 class JObjJNIByteBuffer : public JObjectBase {
   public:
     JObjJNIByteBuffer(JNIEnv* lEnv, jobject lJObject);
-    ~JObjJNIByteBuffer();
+    ~JObjJNIByteBuffer() = default;
 
     void setValuesInJObject(unsigned char* pByteArray);
     void getValuesOutJObject(unsigned char* pByteArray);

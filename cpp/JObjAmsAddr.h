@@ -7,7 +7,7 @@
 class JObjAmsAddr : public JObjectBase {
   public:
     JObjAmsAddr(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAmsAddr();
+    ~JObjAmsAddr() = default;
 
     void setValuesInJObject(PAmsAddr pAddr);
     void getValuesOutJObject(PAmsAddr pAddr);

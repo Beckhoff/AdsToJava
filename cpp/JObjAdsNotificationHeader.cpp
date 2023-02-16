@@ -4,8 +4,6 @@ JObjAdsNotificationHeader::JObjAdsNotificationHeader(JNIEnv* lEnv,
                                                      jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjAdsNotificationHeader::~JObjAdsNotificationHeader() = default;
-
 void JObjAdsNotificationHeader::setValuesInJObject(
     AdsNotificationHeader* pAdsNotificationHeader) {
     setJObjectValue("mHNotification",

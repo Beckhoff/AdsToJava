@@ -6,7 +6,7 @@
 class JObjAmsNetId : public JObjectBase {
   public:
     JObjAmsNetId(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAmsNetId();
+    ~JObjAmsNetId() = default;
 
     void setValuesInJObject(PAmsNetId pNetId);
     void getValuesOutJObject(PAmsNetId pNetId);

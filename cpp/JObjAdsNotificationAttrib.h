@@ -6,7 +6,7 @@
 class JObjAdsNotificationAttrib : public JObjectBase {
   public:
     JObjAdsNotificationAttrib(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAdsNotificationAttrib();
+    ~JObjAdsNotificationAttrib() = default;
 
     void setValuesInJObject(AdsNotificationAttrib* pAdsNotificationAttrib);
     void getValuesOutJObject(AdsNotificationAttrib* pAdsNotificationAttrib);

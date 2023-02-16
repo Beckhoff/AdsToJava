@@ -6,7 +6,7 @@
 class JObjAdsState : public JObjectBase {
   public:
     JObjAdsState(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAdsState();
+    ~JObjAdsState() = default;
 
     void setValuesInJObject(const unsigned short* pAdsState);
     void getValuesOutJObject(unsigned short* pAdsState);

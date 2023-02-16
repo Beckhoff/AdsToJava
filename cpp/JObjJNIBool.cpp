@@ -3,8 +3,6 @@
 JObjJNIBool::JObjJNIBool(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjJNIBool::~JObjJNIBool() = default;
-
 void JObjJNIBool::setValuesInJObject(const bool* pBool) {
     setJObjectValue("mBool", static_cast<jboolean>(*pBool));
 }

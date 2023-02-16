@@ -3,8 +3,6 @@
 JObjJNIByteBuffer::JObjJNIByteBuffer(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjJNIByteBuffer::~JObjJNIByteBuffer() = default;
-
 void JObjJNIByteBuffer::setValuesInJObject(unsigned char* pByteArray) {
     setJObjectArray("mByteArray", pByteArray, false);
 }

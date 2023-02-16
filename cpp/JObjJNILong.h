@@ -5,7 +5,7 @@
 class JObjJNILong : public JObjectBase {
   public:
     JObjJNILong(JNIEnv* lEnv, jobject lJObject);
-    ~JObjJNILong();
+    ~JObjJNILong() = default;
 
     void setValuesInJObject(const long* pLong);
     void getValuesOutJObject(long* pLong);

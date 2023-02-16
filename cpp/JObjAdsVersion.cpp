@@ -3,8 +3,6 @@
 JObjAdsVersion::JObjAdsVersion(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjAdsVersion::~JObjAdsVersion() = default;
-
 void JObjAdsVersion::setValuesInJObject(AdsVersion* pAdsVersion) {
     setJObjectValue("mVersion", static_cast<jchar>(pAdsVersion->version));
     setJObjectValue("mRevision", static_cast<jchar>(pAdsVersion->revision));
@@ -12,8 +10,7 @@ void JObjAdsVersion::setValuesInJObject(AdsVersion* pAdsVersion) {
 }
 
 void JObjAdsVersion::getValuesOutJObject(AdsVersion* pAdsVersion) {
-    short lShort;
-    char lChar;
+    char lChar = '\0';
 
     getJObjectValue("mVersion", &lChar);
     pAdsVersion->version = lChar;
@@ -21,6 +18,7 @@ void JObjAdsVersion::getValuesOutJObject(AdsVersion* pAdsVersion) {
     getJObjectValue("mRevision", &lChar);
     pAdsVersion->revision = lChar;
 
+    short lShort = 0;
     getJObjectValue("mBuild", &lShort);
     pAdsVersion->build = lShort;
 }

@@ -3,8 +3,6 @@
 JObjJNILong::JObjJNILong(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjJNILong::~JObjJNILong() = default;
-
 void JObjJNILong::setValuesInJObject(const long* pLong) {
     setJObjectValue("mLong", static_cast<jlong>(*pLong));
 }

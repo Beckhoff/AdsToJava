@@ -6,7 +6,7 @@
 class JObjAdsNotificationHeader : public JObjectBase {
   public:
     JObjAdsNotificationHeader(JNIEnv* lEnv, jobject lJObject);
-    ~JObjAdsNotificationHeader();
+    ~JObjAdsNotificationHeader() = default;
 
     void setValuesInJObject(AdsNotificationHeader* pAdsNotificationHeader);
 };

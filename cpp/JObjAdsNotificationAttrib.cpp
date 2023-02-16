@@ -4,15 +4,13 @@ JObjAdsNotificationAttrib::JObjAdsNotificationAttrib(JNIEnv* lEnv,
                                                      jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-JObjAdsNotificationAttrib::~JObjAdsNotificationAttrib() = default;
-
 void JObjAdsNotificationAttrib::setValuesInJObject(
     AdsNotificationAttrib* pAdsNotificationAttrib) {
     setJObjectValue("mCbLength",
                     static_cast<jlong>(pAdsNotificationAttrib->cbLength));
 
     // determine mNTransMode
-    int lTransMode;
+    int lTransMode = 0;
     switch (pAdsNotificationAttrib->nTransMode) {
     case ADSTRANS_NOTRANS:
         lTransMode = 0;
@@ -23,7 +21,7 @@ void JObjAdsNotificationAttrib::setValuesInJObject(
 #ifdef POSIX
     case ADSTRANS_CLIENT1REQ:
 #else
-    case ADSTRANS_CLIENTONCHA: // value 2 was renamed
+    case ADSTRANS_CLIENTONCHA:                // value 2 was renamed
 #endif
         lTransMode = 2;
         break;
@@ -34,7 +32,6 @@ void JObjAdsNotificationAttrib::setValuesInJObject(
         lTransMode = 4;
         break;
     default:
-        lTransMode = 0;
         break;
     }
 
@@ -49,14 +46,14 @@ void JObjAdsNotificationAttrib::setValuesInJObject(
 
 void JObjAdsNotificationAttrib::getValuesOutJObject(
     AdsNotificationAttrib* pAdsNotificationAttrib) {
-    unsigned long lULong;
+    unsigned long lULong = 0;
     getJObjectValue("mCbLength", &lULong);
     pAdsNotificationAttrib->cbLength = lULong;
 
     // determine mNTransMode
-    int lInt;
+    int lInt = 0;
     getJObjectValue("mNTransMode", &lInt);
-    ADSTRANSMODE lADSTRANSMODE;
+    ADSTRANSMODE lADSTRANSMODE = ADSTRANS_NOTRANS;
     switch (lInt) {
     case 0:
         lADSTRANSMODE = ADSTRANS_NOTRANS;
@@ -78,7 +75,7 @@ void JObjAdsNotificationAttrib::getValuesOutJObject(
         lADSTRANSMODE = ADSTRANS_SERVERONCHA;
         break;
     default:
-        lADSTRANSMODE = ADSTRANS_NOTRANS;
+        break;
     }
 
     pAdsNotificationAttrib->nTransMode = lADSTRANSMODE;

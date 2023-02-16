@@ -1,13 +1,8 @@
 #include "JObjectBase.h"
 #include "jni.h"
 
-JObjectBase::JObjectBase(JNIEnv* lEnv, jobject lJObject) {
-    mEnv = lEnv;
-    mJObject = lJObject;
-    mJClass = lEnv->GetObjectClass(lJObject);
-}
-
-JObjectBase::~JObjectBase() = default;
+JObjectBase::JObjectBase(JNIEnv* lEnv, jobject lJObject)
+    : mEnv(lEnv), mJObject(lJObject), mJClass(lEnv->GetObjectClass(lJObject)) {}
 
 void JObjectBase::setJObjectValue(const char* lFieldName, jboolean lValue) {
     jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "Z");
@@ -92,7 +87,7 @@ void JObjectBase::setJObjectValueString(const char* lFieldName,
 void JObjectBase::getJObjectValue(const char* lFieldName, bool* lValue) {
     jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "Z");
     if (lj_FieldId != nullptr) {
-        jboolean lJValue = mEnv->GetBooleanField(mJObject, lj_FieldId);
+        const jboolean lJValue = mEnv->GetBooleanField(mJObject, lj_FieldId);
         *lValue = (lJValue != 0);
     }
 }
@@ -191,7 +186,7 @@ void JObjectBase::getJObjectValueString(const char* lFieldName,
         mEnv->GetFieldID(mJClass, lFieldName, "Ljava/lang/String;");
     if (lj_FieldId != nullptr) {
         // get the jstring representation of the current ObjectField
-        auto ljString =
+        auto* ljString =
             static_cast<jstring>(mEnv->GetObjectField(mJObject, lj_FieldId));
 
         // get the char* respresentation of the jstring value
@@ -207,16 +202,16 @@ void JObjectBase::setJObjectArray(const char* lFieldName,
     if (!isJCharArray) {
         jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "[B");
         if (lj_FieldId != nullptr) {
-            auto ljbyteArray = static_cast<jbyteArray>(
+            auto* ljbyteArray = static_cast<jbyteArray>(
                 mEnv->GetObjectField(mJObject, lj_FieldId));
 
-            jsize arr_size = mEnv->GetArrayLength(ljbyteArray);
+            const jsize arr_size = mEnv->GetArrayLength(ljbyteArray);
             jbyte* lj_pDataElements =
                 mEnv->GetByteArrayElements(ljbyteArray, nullptr);
 
             // assign new values to elements
             for (int i = 0; i < arr_size; i++) {
-                lj_pDataElements[i] = lValue[i];
+                lj_pDataElements[i] = static_cast<jbyte>(lValue[i]);
             }
 
             mEnv->ReleaseByteArrayElements(ljbyteArray, lj_pDataElements, 0);
@@ -224,10 +219,10 @@ void JObjectBase::setJObjectArray(const char* lFieldName,
     } else {
         jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "[C");
         if (lj_FieldId != nullptr) {
-            auto ljcharArray = static_cast<jcharArray>(
+            auto* ljcharArray = static_cast<jcharArray>(
                 mEnv->GetObjectField(mJObject, lj_FieldId));
 
-            jsize arr_size = mEnv->GetArrayLength(ljcharArray);
+            const jsize arr_size = mEnv->GetArrayLength(ljcharArray);
             jchar* lj_pDataElements =
                 mEnv->GetCharArrayElements(ljcharArray, nullptr);
 
@@ -246,10 +241,10 @@ void JObjectBase::getJObjectArray(const char* lFieldName, unsigned char* lValue,
     if (!isJCharArray) {
         jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "[B");
         if (lj_FieldId != nullptr) {
-            auto ljbyteArray = static_cast<jbyteArray>(
+            auto* ljbyteArray = static_cast<jbyteArray>(
                 mEnv->GetObjectField(mJObject, lj_FieldId));
 
-            jsize arr_size = mEnv->GetArrayLength(ljbyteArray);
+            const jsize arr_size = mEnv->GetArrayLength(ljbyteArray);
             jbyte* lj_pDataElements =
                 mEnv->GetByteArrayElements(ljbyteArray, nullptr);
 
@@ -263,10 +258,10 @@ void JObjectBase::getJObjectArray(const char* lFieldName, unsigned char* lValue,
     } else {
         jfieldID lj_FieldId = mEnv->GetFieldID(mJClass, lFieldName, "[C");
         if (lj_FieldId != nullptr) {
-            auto ljcharArray = static_cast<jcharArray>(
+            auto* ljcharArray = static_cast<jcharArray>(
                 mEnv->GetObjectField(mJObject, lj_FieldId));
 
-            jsize arr_size = mEnv->GetArrayLength(ljcharArray);
+            const jsize arr_size = mEnv->GetArrayLength(ljcharArray);
             jchar* lj_pDataElements =
                 mEnv->GetCharArrayElements(ljcharArray, nullptr);
 

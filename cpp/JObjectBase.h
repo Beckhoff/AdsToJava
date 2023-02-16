@@ -10,7 +10,7 @@ class JObjectBase {
 
   public:
     JObjectBase(JNIEnv* lEnv, jobject lJObject);
-    ~JObjectBase();
+    ~JObjectBase() = default;
 
     // set native Value
     void setJObjectValue(const char* lFieldName, jboolean lValue);

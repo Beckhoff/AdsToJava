@@ -91,7 +91,7 @@ void ADSSTDCALL AdsStateCallback(AmsAddr* pAddr,
                                  AdsNotificationHeader* pNotification,
                                  ADS_UINT32_OR_ULONG hUser) {
     // attach to the current running thread
-    JNIEnv* env;
+    JNIEnv* env = nullptr;
     jvm->AttachCurrentThread(reinterpret_cast<void**>(&env), jvm);
 
     // create an AmsAddr object within the java vm.
@@ -107,7 +107,7 @@ void ADSSTDCALL AdsStateCallback(AmsAddr* pAddr,
 
     // create an AdsNotificationHeader object within the java vm.
     // use it to store the notifications data
-    jint sampleSize = static_cast<jint>(pNotification->cbSampleSize);
+    const jint sampleSize = static_cast<jint>(pNotification->cbSampleSize);
 
     jmethodID lmid_AdsNotificationHeader_init =
         env->GetMethodID(ljclass_glAdsNotifHeader, "<init>", "(I)V");
@@ -140,7 +140,7 @@ void ADSSTDCALL AdsStateCallback(AmsAddr* pAddr,
 // TwinCAT-Router Callback-Function
 void ADSSTDCALL AdsRouterCallback(LONG nReason) {
     // attach to the current running thread
-    JNIEnv* env;
+    JNIEnv* env = nullptr;
     jvm->AttachCurrentThread(reinterpret_cast<void**>(&env), jvm);
 
     // create a buffer of type JNILong within the java vm.
@@ -151,7 +151,7 @@ void ADSSTDCALL AdsRouterCallback(LONG nReason) {
         env->NewObject(ljclass_glJNILong, lmid_JNILong_init);
 
     JObjJNILong lObjJNILong(env, ljobj_JNILong);
-    long nReasonCpy = static_cast<long>(nReason);
+    const long nReasonCpy = static_cast<long>(nReason);
     lObjJNILong.setValuesInJObject(&nReasonCpy);
 
     // call the designated callback method within the java vm
@@ -221,7 +221,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetDllVersion(
 JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsPortOpen(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) -> jlong {
-    long nPort = AdsPortOpen();
+    const long nPort = AdsPortOpen();
     return static_cast<jlong>(nPort);
 }
 
@@ -229,7 +229,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsPortOpen(
 JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsPortClose(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) -> jlong {
-    long nErr = AdsPortClose();
+    const long nErr = AdsPortClose();
     return static_cast<jlong>(nErr);
 }
 
@@ -241,7 +241,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetLocalAddress(
     PAmsAddr pAddr = &Addr;
 
     // ADS call
-    long nErr = AdsGetLocalAddress(pAddr);
+    const long nErr = AdsGetLocalAddress(pAddr);
 
     // Convert the result and assign it to the according java parameter
     // Set the AmsAddr
@@ -278,15 +278,15 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadReq(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
 
     // ADS call
-    long nErr = AdsSyncReadReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
-                               lcpp_length, lcpp_DataByteArray.data());
+    const long nErr = AdsSyncReadReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
+                                     lcpp_length, lcpp_DataByteArray.data());
 
     // Convert the result and assign it to the according java parameter
     // Set the response buffer
@@ -313,9 +313,9 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqArray(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray;
     lcpp_DataByteArray.resize(std::max(lcpp_length, 1L), 0x00);
 
@@ -326,8 +326,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqArray(
     }
 
     // ADS call
-    long nErr = AdsSyncWriteReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
-                                lcpp_length, lcpp_DataByteArray.data());
+    const long nErr = AdsSyncWriteReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
+                                      lcpp_length, lcpp_DataByteArray.data());
 
     env->ReleaseByteArrayElements(lj_pData, lj_pDataElements, JNI_ABORT);
 
@@ -351,9 +351,9 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReq(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
 
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
@@ -363,8 +363,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReq(
     lJObjJNIByteBuffer.getValuesOutJObject(lcpp_DataByteArray.data());
 
     // ADS call
-    long nErr = AdsSyncWriteReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
-                                lcpp_length, lcpp_DataByteArray.data());
+    const long nErr = AdsSyncWriteReq(pAddr, lcpp_indexGroup, lcpp_indexOffset,
+                                      lcpp_length, lcpp_DataByteArray.data());
 
     env->DeleteLocalRef(lj_pData);
     env->DeleteGlobalRef(lj_pData);
@@ -392,10 +392,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadWriteReq(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
-    long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
+    const long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
 
     // write data in lcpp_DataByteArrayWrite
     std::vector<unsigned char> lcpp_DataByteArrayWrite(
@@ -436,8 +436,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadStateReq(
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
     // ADS call
-    unsigned short nAdsState;
-    unsigned short nDeviceState;
+    unsigned short nAdsState = 0;
+    unsigned short nDeviceState = 0;
     nErr = AdsSyncReadStateReq(pAddr, &nAdsState, &nDeviceState);
 
     // Convert the result and assign it to the according java parameter
@@ -515,7 +515,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteControlReq(
     }
     auto lcpp_deviceState = static_cast<unsigned short>(lj_deviceState);
 
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
 
@@ -524,8 +524,9 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteControlReq(
     lJObjJNIByteBuffer.getValuesOutJObject(lcpp_DataByteArray.data());
 
     // ADS call
-    long nErr = AdsSyncWriteControlReq(pAddr, lcpp_adsState, lcpp_deviceState,
-                                       lcpp_length, lcpp_DataByteArray.data());
+    const long nErr =
+        AdsSyncWriteControlReq(pAddr, lcpp_adsState, lcpp_deviceState,
+                               lcpp_length, lcpp_DataByteArray.data());
 
     return static_cast<jlong>(nErr);
 }
@@ -538,12 +539,12 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncGetTimeout(
 {
     // ADS call
     LONG data = 0;
-    long nErr = AdsSyncGetTimeout(&data);
+    const long nErr = AdsSyncGetTimeout(&data);
 
     // Convert the result and assign it to the according java parameter
     // Set the milliseconds
     JObjJNILong ljObjJNILong(env, lj_pMs);
-    long dataCpy = static_cast<long>(data);
+    const long dataCpy = static_cast<long>(data);
     ljObjJNILong.setValuesInJObject(&dataCpy);
 
     return static_cast<jlong>(nErr);
@@ -556,8 +557,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncSetTimeout(
     jlong lj_nMs) -> jlong // Set timeout in ms
 {
     // ADS call
-    long nErr =
-        static_cast<jlong>(AdsSyncSetTimeout(static_cast<long>(lj_nMs)));
+    const long nErr =
+        static_cast<jlong>(AdsSyncSetTimeout(static_cast<ads_i32>(lj_nMs)));
     return nErr;
 }
 
@@ -586,9 +587,9 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncAddDeviceNotificatio
     lJObjAdsNotificationAttrib.getValuesOutJObject(&lcpp_adsNotificationAttrib);
 
     // ADS call
-    ULONG hNotification;
+    ULONG hNotification = 0;
     PAdsNotificationFuncEx callback = AdsStateCallback;
-    long nErr = AdsSyncAddDeviceNotificationReq(
+    const long nErr = AdsSyncAddDeviceNotificationReq(
         pAddr, static_cast<LONG>(lj_indexGroup),
         static_cast<LONG>(lj_indexOffset), &lcpp_adsNotificationAttrib,
         callback, static_cast<uint32_t>(lj_hUser), &hNotification);
@@ -623,7 +624,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncDelDeviceNotificatio
     auto hNotificationCpy = static_cast<ULONG>(hNotification);
 
     // ADS call
-    long nErr = AdsSyncDelDeviceNotificationReq(pAddr, hNotificationCpy);
+    const long nErr = AdsSyncDelDeviceNotificationReq(pAddr, hNotificationCpy);
     return static_cast<jlong>(nErr);
 }
 
@@ -633,7 +634,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsRegisterRouterNotific
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) -> jlong {
     // ADS call
     PAmsRouterNotificationFuncEx callback = AdsRouterCallback;
-    long nErr = AdsAmsRegisterRouterNotification(callback);
+    const long nErr = AdsAmsRegisterRouterNotification(callback);
     return static_cast<jlong>(nErr);
 }
 
@@ -642,7 +643,7 @@ JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsUnRegisterRouterNotification(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) -> jlong {
     // ADS call
-    long nErr = AdsAmsUnRegisterRouterNotification();
+    const long nErr = AdsAmsUnRegisterRouterNotification();
     return static_cast<jlong>(nErr);
 }
 
@@ -652,7 +653,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsPortEnabled(
     JNIEnv* env, jobject obj [[maybe_unused]], jobject lj_pEnabled) -> jlong {
     // ADS call
     BOOL data = 0;
-    long nErr = AdsAmsPortEnabled(&data);
+    const long nErr = AdsAmsPortEnabled(&data);
 
     // Convert the result and assign it to the according java parameter
     // Set the response buffer
@@ -669,7 +670,7 @@ JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsPortOpenEx(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) -> jlong {
     // ADS call
-    long nPort = AdsPortOpenEx();
+    const long nPort = AdsPortOpenEx();
     return static_cast<jlong>(nPort);
 }
 
@@ -680,10 +681,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsPortCloseEx(
     jlong lj_nPort) -> jlong // AMS port of ADS client
 {
     // convert the parameters to cpp value types and make the ADS call
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     // ADS call
-    long nErr = AdsPortCloseEx(lcpp_nPort);
+    const long nErr = AdsPortCloseEx(lcpp_nPort);
     return static_cast<jlong>(nErr);
 }
 
@@ -697,10 +698,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetLocalAddressEx(
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     // ADS call
-    long nErr = AdsGetLocalAddressEx(lcpp_nPort, pAddr);
+    const long nErr = AdsGetLocalAddressEx(lcpp_nPort, pAddr);
 
     // Convert the result and assign it to the according java parameter
     // Set the AmsAddr
@@ -728,15 +729,15 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadReqEx(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
     ULONG lcpp_pcbReturn = 0;
 
     // ADS call
-    long nErr =
+    const long nErr =
         AdsSyncReadReqEx(pAddr, lcpp_indexGroup, lcpp_indexOffset, lcpp_length,
                          lcpp_DataByteArray.data(), &lcpp_pcbReturn);
 
@@ -772,18 +773,18 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadReqEx2(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_nPort = static_cast<long>(lj_nPort);
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     ULONG lcpp_pcbReturn = 0;
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
 
     // ADS call
-    long nErr = AdsSyncReadReqEx2(lcpp_nPort, pAddr, lcpp_indexGroup,
-                                  lcpp_indexOffset, lcpp_length,
-                                  lcpp_DataByteArray.data(), &lcpp_pcbReturn);
+    const long nErr = AdsSyncReadReqEx2(
+        lcpp_nPort, pAddr, lcpp_indexGroup, lcpp_indexOffset, lcpp_length,
+        lcpp_DataByteArray.data(), &lcpp_pcbReturn);
 
     // Convert the result and assign it to the according java parameter
     // Set the response buffer
@@ -816,10 +817,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqEx(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_nPort = static_cast<long>(lj_nPort);
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
 
@@ -828,7 +829,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqEx(
     lJObjJNIByteBuffer.getValuesOutJObject(lcpp_DataByteArray.data());
 
     // ADS call
-    long nErr =
+    const long nErr =
         AdsSyncWriteReqEx(lcpp_nPort, pAddr, lcpp_indexGroup, lcpp_indexOffset,
                           lcpp_length, lcpp_DataByteArray.data());
 
@@ -853,10 +854,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqExArray(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_nPort = static_cast<long>(lj_nPort);
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_length = static_cast<long>(lj_length);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray;
     lcpp_DataByteArray.reserve(lcpp_length);
 
@@ -868,7 +869,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteReqExArray(
     }
 
     // ADS call
-    long nErr =
+    const long nErr =
         AdsSyncWriteReqEx(lcpp_nPort, pAddr, lcpp_indexGroup, lcpp_indexOffset,
                           lcpp_length, lcpp_DataByteArray.data());
 
@@ -897,10 +898,10 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadWriteReqEx(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
-    long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
+    const long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
     ULONG lcpp_pcbReturn = 0;
 
     // Write Data in lcpp_DataByteArrayWrite
@@ -913,7 +914,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadWriteReqEx(
     // ADS call
     std::vector<unsigned char> lcpp_DataByteArrayRead(
         std::max(lcpp_ReadLength, 1L), 0x00);
-    long nErr = AdsSyncReadWriteReqEx(
+    const long nErr = AdsSyncReadWriteReqEx(
         pAddr, lcpp_indexGroup, lcpp_indexOffset, lcpp_ReadLength,
         lcpp_DataByteArrayRead.data(), lcpp_WriteLength,
         lcpp_DataByteArrayWrite.data(), &lcpp_pcbReturn);
@@ -952,11 +953,11 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadWriteReqEx2(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_nPort = static_cast<long>(lj_nPort);
-    long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
-    long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
-    long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
-    long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
+    const long lcpp_indexGroup = static_cast<long>(lj_indexGroup);
+    const long lcpp_indexOffset = static_cast<long>(lj_indexOffset);
+    const long lcpp_ReadLength = static_cast<long>(lj_cbReadLength);
+    const long lcpp_WriteLength = static_cast<long>(lj_cbWriteLength);
     ULONG lcpp_pcbReturn = 0;
 
     // Write Data in lcpp_DataByteArrayWrite
@@ -969,7 +970,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadWriteReqEx2(
     // ADS call
     std::vector<unsigned char> lcpp_DataByteArrayRead(
         std::max(lcpp_ReadLength, 1L), 0x00);
-    long nErr = AdsSyncReadWriteReqEx2(
+    const long nErr = AdsSyncReadWriteReqEx2(
         lcpp_nPort, pAddr, lcpp_indexGroup, lcpp_indexOffset, lcpp_ReadLength,
         lcpp_DataByteArrayRead.data(), lcpp_WriteLength,
         lcpp_DataByteArrayWrite.data(), &lcpp_pcbReturn);
@@ -999,15 +1000,15 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadStateReqEx(
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
     // ADS call
-    unsigned short nAdsState;
-    unsigned short nDeviceState;
-    long nErr =
+    unsigned short nAdsState = 0;
+    unsigned short nDeviceState = 0;
+    const long nErr =
         AdsSyncReadStateReqEx(lcpp_nPort, pAddr, &nAdsState, &nDeviceState);
 
     // Convert the result and assign it to the according java parameter
@@ -1034,7 +1035,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadDeviceInfoReqEx(
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
     AdsVersion version;
 
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
@@ -1042,7 +1043,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadDeviceInfoReqEx(
 
     // ADS call
     std::string devName(DEVICE_NAME_MAX_LEN, '\0');
-    long nErr =
+    const long nErr =
         AdsSyncReadDeviceInfoReqEx(lcpp_nPort, pAddr, devName.data(), &version);
 
     // Convert the result and assign it to the according java parameter
@@ -1076,7 +1077,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteControlReqEx(
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     if (lj_adsState < std::numeric_limits<unsigned short>::min() ||
         lj_adsState > std::numeric_limits<unsigned short>::max()) {
@@ -1090,7 +1091,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteControlReqEx(
     }
     auto lcpp_deviceState = static_cast<unsigned short>(lj_deviceState);
 
-    long lcpp_length = static_cast<long>(lj_length);
+    const long lcpp_length = static_cast<long>(lj_length);
     std::vector<unsigned char> lcpp_DataByteArray(std::max(lcpp_length, 1L),
                                                   0x00);
 
@@ -1099,9 +1100,9 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncWriteControlReqEx(
     lJObjJNIByteBuffer.getValuesOutJObject(lcpp_DataByteArray.data());
 
     // ADS call
-    long nErr = AdsSyncWriteControlReqEx(lcpp_nPort, pAddr, lcpp_adsState,
-                                         lcpp_deviceState, lcpp_length,
-                                         lcpp_DataByteArray.data());
+    const long nErr = AdsSyncWriteControlReqEx(lcpp_nPort, pAddr, lcpp_adsState,
+                                               lcpp_deviceState, lcpp_length,
+                                               lcpp_DataByteArray.data());
 
     return static_cast<jlong>(nErr);
 }
@@ -1115,7 +1116,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncGetTimeoutEx(
 {
     // ADS call
     LONG data = 0;
-    long nErr = AdsSyncGetTimeoutEx(static_cast<long>(lj_nPort), &data);
+    const long nErr =
+        AdsSyncGetTimeoutEx(static_cast<ads_i32>(lj_nPort), &data);
 
     // Convert the result and assign it to the according java parameter
     // Get the milliseconds
@@ -1134,8 +1136,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncSetTimeoutEx(
     jlong lj_nMs) -> jlong // Set timeout in ms
 {
     // ADS call
-    return static_cast<jlong>(AdsSyncSetTimeoutEx(static_cast<long>(lj_nPort),
-                                                  static_cast<long>(lj_nMs)));
+    return static_cast<jlong>(AdsSyncSetTimeoutEx(
+        static_cast<ads_i32>(lj_nPort), static_cast<ads_i32>(lj_nMs)));
 }
 
 // AdsSyncAddDeviceNotificationReqEx
@@ -1155,7 +1157,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncAddDeviceNotificatio
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
     AdsNotificationAttrib lcpp_adsNotificationAttrib;
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     JObjAmsAddr lJObjAmsAddr(env, lj_pAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
@@ -1167,7 +1169,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncAddDeviceNotificatio
     // ADS call
     ULONG hNotification = 0;
     PAdsNotificationFuncEx callback = AdsStateCallback;
-    long nErr = AdsSyncAddDeviceNotificationReqEx(
+    const long nErr = AdsSyncAddDeviceNotificationReqEx(
         lcpp_nPort, pAddr, static_cast<LONG>(lj_indexGroup),
         static_cast<LONG>(lj_indexOffset), &lcpp_adsNotificationAttrib,
         callback, static_cast<uint32_t>(lj_hUser), &hNotification);
@@ -1192,8 +1194,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncDelDeviceNotificatio
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    long hNotification;
-    long lcpp_nPort = static_cast<long>(lj_nPort);
+    long hNotification = 0;
+    const auto lcpp_nPort = static_cast<ads_i32>(lj_nPort);
 
     JObjAmsAddr lJObjAmsAddr(env, lj_pAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
@@ -1215,7 +1217,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsPortEnabledEx(
     jobject lj_pEnabled) -> jlong {
     // ADS call
     BOOL data = 0;
-    long nErr = AdsAmsPortEnabledEx(static_cast<long>(lj_nPort), &data);
+    const long nErr =
+        AdsAmsPortEnabledEx(static_cast<ads_i32>(lj_nPort), &data);
 
     // Convert the result and assign it to the according java parameter
     // Get the response buffer

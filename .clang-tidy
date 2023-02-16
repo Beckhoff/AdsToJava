@@ -1,4 +1,17 @@
-Checks: '*,-google-runtime-int,-fuchsia-trailing-return,-hicpp-vararg,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-static-cast-downcast,-cppcoreguidelines-pro-bounds-constant-array-index,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-pro-bounds-pointer-arithmetic'
+Checks: >
+  *,
+  -google-runtime-int,
+  -fuchsia-trailing-return,
+  -hicpp-vararg,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-pro-type-union-access,
+  -cppcoreguidelines-pro-type-static-cast-downcast,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -bugprone-easily-swappable-parameters,
+  -llvmlibc-*, 
+  -altera-*,
 HeaderFilterRegex: 'cpp/*.h'
 WarningsAsErrors: '*'
 
