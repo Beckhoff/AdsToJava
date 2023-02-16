@@ -189,7 +189,7 @@ void JObjectBase::getJObjectValueString(const char* lFieldName,
         auto* ljString =
             static_cast<jstring>(mEnv->GetObjectField(mJObject, lj_FieldId));
 
-        // get the char* respresentation of the jstring value
+        // get the char* representation of the jstring value
         const char* lText = mEnv->GetStringUTFChars(ljString, nullptr);
         *lValue = lText;
     }
