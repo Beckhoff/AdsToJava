@@ -24,7 +24,9 @@ typedef unsigned int BOOL;
 #include "TcAdsDef.h"
 
 #ifdef POSIX
+typedef ads_i32 ADS_INT32_OR_LONG;
 typedef ads_ui32 ADS_UINT32_OR_ULONG;
 #else
+typedef long ADS_INT32_OR_LONG;
 typedef unsigned long ADS_UINT32_OR_ULONG;
 #endif
