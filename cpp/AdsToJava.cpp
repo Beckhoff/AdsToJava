@@ -44,7 +44,6 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitDll(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) {
     int major = 0;
     int minor = 0;
-    int build = 0;
 
     DWORD verHandle = 0;
     uint32_t size = 0;
@@ -63,7 +62,6 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitDll(
                     if (verInfo->dwSignature == 0xfeef04bd) {
                         major = HIWORD(verInfo->dwFileVersionMS);
                         minor = LOWORD(verInfo->dwFileVersionMS);
-                        build = verInfo->dwFileVersionLS;
                     }
                 }
             }

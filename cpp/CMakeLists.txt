@@ -10,11 +10,24 @@ set(CMAKE_CXX_CLANG_TIDY clang-tidy)
 include(CTest)
 enable_testing()
 
+set(ADSTOJAVA_FILE_VERSION_MAJOR 3)
+set(ADSTOJAVA_FILE_VERSION_MINOR 0)
+set(ADSTOJAVA_FILE_VERSION "${ADSTOJAVA_FILE_VERSION_MAJOR}.${ADSTOJAVA_FILE_VERSION_MINOR}")
+add_compile_definitions(ADSTOJAVA_FILE_VERSION_MAJOR=${ADSTOJAVA_FILE_VERSION_MAJOR})
+add_compile_definitions(ADSTOJAVA_FILE_VERSION_MINOR=${ADSTOJAVA_FILE_VERSION_MINOR})
+string(REPLACE "." "," ADSTOJAVA_FILE_VERSION_CS "${ADSTOJAVA_FILE_VERSION}")
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+  ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+  @ONLY)
+
 file(GLOB SOURCES
     *.h
     *.cpp
 )
-add_library(AdsToJava SHARED ${SOURCES})
+add_library(AdsToJava SHARED ${SOURCES}
+  ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 
 if(MSVC)
     target_compile_options(AdsToJava PRIVATE /W4 /WX)
