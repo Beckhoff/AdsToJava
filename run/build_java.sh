@@ -2,6 +2,7 @@
 set -e
 
 export PATH=$(pwd)/dist:$PATH
+export LD_LIBRARY_PATH=$(pwd)/dist:$LD_LIBRARY_PATH
 
 # apply patches depending on the installed java version
 java_version=$(java -version 2>&1)
@@ -15,6 +16,8 @@ if [[ "$java_version" == *" 1.8"* ]]; then
     }
     trap cleanup EXIT
 fi
+
+java -XshowSettings:properties -version
 
 mvn spotbugs:check -f "pom.xml"
 

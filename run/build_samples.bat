@@ -1,5 +1,3 @@
-SET PATH=%cd%\dist\;%PATH%
-
 REM Sample 02
 javac samples\02_AccessByVariableName\*.java -classpath dist\TcJavaToAds-3.0.0.jar -deprecation || exit /b %errorlevel%
 jar cmf samples\MANIFEST.MF dist\02_AccessByVariableName.jar -C samples\02_AccessByVariableName Main.class || exit /b %errorlevel%

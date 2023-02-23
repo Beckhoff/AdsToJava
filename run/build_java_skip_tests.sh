@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-export PATH=$(pwd)/dist:$PATH
-
 mvn spotbugs:check -f "pom.xml"
 
 # this call also runs all the tests and create coverage report

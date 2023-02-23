@@ -4,6 +4,7 @@ import de.beckhoff.jni.AllTests;
 import de.beckhoff.jni.tcads.AdsCallDllFunction;
 import de.beckhoff.jni.tcads.AmsAddr;
 import junit.framework.TestCase;
+import java.util.Arrays;
 
 /**
  *
@@ -35,10 +36,10 @@ public class GetLocalAmsAddressTest extends TestCase {
             assertEquals("Test GetLocalAmsAddr error value",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
 
-            assertEquals("Test GetLocalAmsAddr", AllTests.LOCAL_AMSADDR,
-                         addr.getNetIdString());
+            assertTrue("Test GetLocalAmsAddr",
+                       Arrays.asList(AllTests.LOCAL_AMSADDR).contains(addr.getNetIdString()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -59,7 +60,7 @@ public class GetLocalAmsAddressTest extends TestCase {
             assertEquals("Fail GetLocalAmsAddr (addr is null)",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

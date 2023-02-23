@@ -176,7 +176,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (byte)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -195,6 +195,11 @@ public class CallbackObjectTest extends TestCase {
 
             assertEquals("Test AddDeviceNotification error value (short)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
+            assertTrue("Test AddDeviceNotification notification handle",
+                       notification != null);
+            assertTrue("Test AddDeviceNotification notification handle (" +
+                       Long.toString(notification.getLong()) + ")",
+                       notification.getLong() != 0);
 
             err = AdsCallDllFunction.adsSyncWriteReq(
                 addr, AllTests.INDEX_GROUP, AllTests.INDEX_OFF2,
@@ -218,7 +223,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (short)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -260,7 +265,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (int)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -302,7 +307,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (bool)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -344,7 +349,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (float)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -387,7 +392,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (double)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -430,7 +435,7 @@ public class CallbackObjectTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (string)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

@@ -65,7 +65,7 @@ public class DeviceNotificationRequestTest extends TestCase {
             assertEquals("Test DelDeviceNotification error value",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -74,12 +74,12 @@ public class DeviceNotificationRequestTest extends TestCase {
             (port <= AllTests.ADS_PORTNUMBER_MAX)) {
             addr = null;
             err = AdsCallDllFunction.adsSyncAddDeviceNotificationReq(
-                addr, INDEX_GROUP, INDEX_OFF1, attr, USER, notification);
+                addr, INDEX_GROUP, INDEX_OFF1, attr, USER,  notification);
 
             assertEquals("Test AddDeviceNotification error value",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -93,7 +93,7 @@ public class DeviceNotificationRequestTest extends TestCase {
             assertEquals("Test AddDeviceNotification error value",
                          AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -107,7 +107,7 @@ public class DeviceNotificationRequestTest extends TestCase {
             assertEquals("Test AddDeviceNotification error value",
                          AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

@@ -7,6 +7,4 @@ IF EXIST dist\doc (
 )
 mkdir dist\doc || exit /b %errorlevel%
 
-SET PATH=%cd%\dist\;%PATH%
-
 javadoc -d dist\doc -sourcepath src\main\java -subpackages de.beckhoff.jni || exit /b %errorlevel%

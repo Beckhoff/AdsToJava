@@ -70,7 +70,7 @@ public class Main {
         while (true) {
             try {
                 // User chooses which variable declaration to display
-                System.out.print("Enter variable Name: ");
+                System.out.print("Enter variable Name (e.g. MAIN.uintValue): ");
 
                 buffReader =
                     new BufferedReader(new InputStreamReader(System.in));

@@ -62,7 +62,7 @@ public class DeviceNotificationTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (short)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -82,7 +82,7 @@ public class DeviceNotificationTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (bool)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -102,7 +102,7 @@ public class DeviceNotificationTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (double)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -122,7 +122,7 @@ public class DeviceNotificationTest extends TestCase {
             assertEquals("Test DeleteDeviceNotification error value (string)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -137,7 +137,7 @@ public class DeviceNotificationTest extends TestCase {
             assertEquals("Fail SetTimeout error value (Address null)",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -153,7 +153,7 @@ public class DeviceNotificationTest extends TestCase {
                 "Fail SetTimeout error value (NotificationAttrib null)",
                 AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -169,7 +169,7 @@ public class DeviceNotificationTest extends TestCase {
                 "Fail SetTimeout error value (NotificationAttrib null)",
                 AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -185,7 +185,7 @@ public class DeviceNotificationTest extends TestCase {
                 "Fail SetTimeout error value (NotificationAttrib null)",
                 AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -201,7 +201,7 @@ public class DeviceNotificationTest extends TestCase {
                 "Fail SetTimeout error value (NotificationAttrib null)",
                 AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

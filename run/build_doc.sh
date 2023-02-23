@@ -10,6 +10,4 @@ if [ -d "./dist/doc" ]; then
 fi
 mkdir ./dist/doc
 
-export PATH=$(pwd)/dist:$PATH
-
 javadoc -d ./dist/doc -sourcepath ./src/main/java -subpackages de.beckhoff.jni

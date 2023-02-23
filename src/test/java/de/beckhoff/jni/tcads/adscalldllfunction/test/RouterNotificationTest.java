@@ -43,7 +43,7 @@ public class RouterNotificationTest extends TestCase {
             assertEquals("Test DeleteRouterNotification error value (short)",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

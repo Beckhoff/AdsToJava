@@ -17,21 +17,22 @@ add_compile_definitions(ADSTOJAVA_FILE_VERSION_MAJOR=${ADSTOJAVA_FILE_VERSION_MA
 add_compile_definitions(ADSTOJAVA_FILE_VERSION_MINOR=${ADSTOJAVA_FILE_VERSION_MINOR})
 string(REPLACE "." "," ADSTOJAVA_FILE_VERSION_CS "${ADSTOJAVA_FILE_VERSION}")
 
-configure_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
-  ${CMAKE_CURRENT_BINARY_DIR}/version.rc
-  @ONLY)
-
 file(GLOB SOURCES
     *.h
     *.cpp
 )
-add_library(AdsToJava SHARED ${SOURCES}
-  ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 
 if(MSVC)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+        @ONLY)
+    add_library(AdsToJava SHARED ${SOURCES}
+        ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+
     target_compile_options(AdsToJava PRIVATE /W4 /WX)
 else()
+    add_library(AdsToJava SHARED ${SOURCES})
     target_compile_options(AdsToJava PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 

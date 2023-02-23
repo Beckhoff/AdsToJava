@@ -59,7 +59,7 @@ public class WriteControlRequestTest extends TestCase {
             assertEquals("Test WriteControlRequest check ads-state", STOP_STATE,
                          adsState.getState());
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -74,7 +74,7 @@ public class WriteControlRequestTest extends TestCase {
             assertEquals("Fail WriteControlRequest error value",
                          AdsCallDllFunction.ADSERR_INV_SERVER_STATE, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -89,7 +89,7 @@ public class WriteControlRequestTest extends TestCase {
             assertEquals("Fail WriteControlRequest error value (Address null)",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -103,7 +103,7 @@ public class WriteControlRequestTest extends TestCase {
             assertEquals("Fail WriteControlRequest error value (Buffer null)",
                          AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

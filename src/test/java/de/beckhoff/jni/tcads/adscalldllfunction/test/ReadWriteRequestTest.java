@@ -134,7 +134,7 @@ public class ReadWriteRequestTest extends TestCase {
             assertEquals("ReadWriteRequest invalid index group test",
                          AdsCallDllFunction.ADSERR_SRVICE_NOT_SUPP, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 

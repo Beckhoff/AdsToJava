@@ -76,7 +76,7 @@ public class WriteRequestArrayTest extends TestCase {
             assertEquals("Test WriteRequest-Check (byte)", AllTests.INT_VAL,
                          Convert.ByteArrToInt(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -91,7 +91,7 @@ public class WriteRequestArrayTest extends TestCase {
             assertEquals("Test WriteRequest error value",
                          AdsCallDllFunction.ADSERR_SRVICE_NOT_SUPP, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -106,6 +106,8 @@ public class WriteRequestArrayTest extends TestCase {
 
             assertEquals("Test WriteRequest error value",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
+        } else {
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

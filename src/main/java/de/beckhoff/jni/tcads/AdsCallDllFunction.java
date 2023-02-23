@@ -6,7 +6,7 @@ package de.beckhoff.jni.tcads;
 import de.beckhoff.jni.*;
 
 /**
- * Wrapper class for AdsToJava-3.dll.
+ * Wrapper class for AdsToJava-3.dll or libAdsToJava-3.so.
  *
  * @author Beckhoff Automation
  */
@@ -700,7 +700,7 @@ public class AdsCallDllFunction {
     private AdsCallDllFunction() {}
 
     /**
-     * Load AdsToJava-3.dll.
+     * Load AdsToJava-3.dll or libAdsToJava-3.so.
      */
     static {
         try {
@@ -709,7 +709,7 @@ public class AdsCallDllFunction {
             // We simply did not find the dll
             if (ex.getMessage().equals("no AdsToJava in java.library.path")) {
                 System.out.println(
-                    "AdsToJava-3.dll not found. Check your PATH environment variable!");
+                    "AdsToJava-3.dll or libAdsToJava-3.so not found. Check your PATH environment variable!");
 
                 // An unknown UnsatisfiedLinkError has occurred
             } else {
@@ -717,7 +717,7 @@ public class AdsCallDllFunction {
             }
         } catch (SecurityException ex) {
             System.out.println(
-                "The current thread cannot load the library AdsToJava-3.dll!");
+                "The current thread cannot load the library AdsToJava-3.dll or libAdsToJava-3.so!");
         }
 
         jniWrapperDllVersion = callDllDoInitDll();

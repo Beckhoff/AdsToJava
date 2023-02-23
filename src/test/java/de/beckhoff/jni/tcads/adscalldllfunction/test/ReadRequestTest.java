@@ -49,7 +49,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest (byte)", AllTests.BYTE_VALUE_DEFAULT,
                          Convert.ByteArrToByte(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -68,7 +68,7 @@ public class ReadRequestTest extends TestCase {
                          AllTests.SHORT_VALUE_DEFAULT,
                          Convert.ByteArrToShort(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -86,7 +86,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest (int)", AllTests.INT_VALUE_DEFAULT,
                          Convert.ByteArrToInt(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -104,7 +104,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest (bool)", AllTests.BOOL_VALUE_DEFAULT,
                          Convert.ByteArrToBool(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -124,7 +124,7 @@ public class ReadRequestTest extends TestCase {
                          AllTests.FLOAT_VALUE_DEFAULT,
                          Convert.ByteArrToFloat(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -143,7 +143,7 @@ public class ReadRequestTest extends TestCase {
                          AllTests.DOUBLE_VALUE_DEFAULT,
                          Convert.ByteArrToDouble(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -162,7 +162,7 @@ public class ReadRequestTest extends TestCase {
                          AllTests.STRING_VALUE_DEFAULT,
                          Convert.ByteArrToString(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -177,7 +177,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest error value",
                          AdsCallDllFunction.ADSERR_SRVICE_NOT_SUPP, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -194,7 +194,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest error value",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -209,7 +209,7 @@ public class ReadRequestTest extends TestCase {
             assertEquals("Test ReadRequest error value",
                          AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

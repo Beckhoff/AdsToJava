@@ -6,7 +6,9 @@ It was tested on Windows 10 using TwinCAT v3.1.4024.25 and OpenJDK 11.0.14.1.
 
 **It consists of two parts:**
 
-1. `AdsToJava-3.dll`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `TcAdsDll.dll`.
+1. **Windows:** `AdsToJava-3.dll`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `TcAdsDll.dll`.
+
+   **Tc/BSD:** `libAdsToJava-3.so`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `libTcAdsDll.so`.
 2. `TcJavaToAds-3.0.0.jar`: A Java archive that provides a straightforward way to call this JNI.
 
 ## Requirements
@@ -48,8 +50,8 @@ bootstrap.bat
 bootstrap_full.bat
 ```
 
-Or execute one of these commands if you prefer
-using [Git Bash](https://gitforwindows.org/):
+Or execute one of these commands if you are on Tc/BSD or
+using [Git Bash](https://gitforwindows.org/) on Windows:
 
 ```batch
 bash ./bootstrap.sh
@@ -64,10 +66,12 @@ and automated code formatting.
 Before running the tests you should activate the
 [TestPlc](plc/TestPlc/) project.
 
-**Note:** The build scripts always compile an x64 and win32
-version of the `AdsToJava-3.dll`. Depending on your system,
+**Note:** On windows, the build scripts always compile an x64 and
+win32 version of the `AdsToJava-3.dll`. Depending on your system,
 one of them is copied to the `dist/` directory. You can find
 the other version in the `build*/Release` directory.
+There is no 32 bit version of Tc/BSD operating system so there is
+no need for a 32 bit version of this library on Tc/BSD.
 
 ## Samples
 
@@ -91,7 +95,7 @@ Overview of the folder structure of this repository:
 ├── cpp      # C++ source files
 ├── src      # Java source files and tests
 ├── samples  # Java source files for the samples
-├── build*   # Full C++ build output (x64 and win32)
+├── build*   # Full C++ build output: x64 (and win32)
 ├── target   # Full Java build output including coverage report
 ├── plc      # PLC projects for the tests and samples
 ├── jdk      # OpenJDK submodule for the JNI header files

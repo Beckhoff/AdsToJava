@@ -79,7 +79,7 @@ public class GetSetTimeoutTest extends TestCase {
                 // Do no test since it's already covered above
             }
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -104,7 +104,7 @@ public class GetSetTimeoutTest extends TestCase {
             assertEquals("Fail SetTimeout error value",
                          AdsCallDllFunction.ADSERR_INV_CLIENT_TIMEOUT, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

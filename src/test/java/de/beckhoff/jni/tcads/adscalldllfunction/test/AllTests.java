@@ -30,8 +30,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(RouterNotificationTest.class);
         suite.addTestSuite(CallbackObjectTest.class);
         suite.addTestSuite(AdsAmsPortEnabledTest.class);
-
-        //        suite.addTestSuite(FailPortOpenCloseTest.class);
+        suite.addTestSuite(FailPortOpenCloseTest.class);
 
         return suite;
     }

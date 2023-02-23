@@ -12,6 +12,7 @@ Checks: >
   -bugprone-easily-swappable-parameters,
   -llvmlibc-*, 
   -altera-*,
+  -modernize-use-trailing-return-type,
 HeaderFilterRegex: 'cpp/*.h'
 WarningsAsErrors: '*'
 

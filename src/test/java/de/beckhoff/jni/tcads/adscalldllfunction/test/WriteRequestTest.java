@@ -101,7 +101,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest-Check (byte)", AllTests.BYTE_VAL,
                          Convert.ByteArrToByte(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -128,7 +128,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest-Check (short)", AllTests.SHORT_VAL,
                          Convert.ByteArrToShort(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -154,7 +154,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest-Check (byte)", AllTests.INT_VAL,
                          Convert.ByteArrToInt(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -181,7 +181,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest-Check (bool)", AllTests.BOOL_VAL,
                          Convert.ByteArrToBool(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -209,7 +209,7 @@ public class WriteRequestTest extends TestCase {
                          Convert.ByteArrToFloat(buffer.getByteArray()),
                          AllTests.FLOAT_COMPARE_DELTA);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -238,7 +238,7 @@ public class WriteRequestTest extends TestCase {
                          Convert.ByteArrToDouble(buffer.getByteArray()),
                          AllTests.FLOAT_COMPARE_DELTA);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -266,52 +266,9 @@ public class WriteRequestTest extends TestCase {
                          AllTests.STRING_VAL,
                          Convert.ByteArrToString(buffer.getByteArray()));
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
-
-    //    public void testWriteRequestMemoryLeakTest()
-    //    {
-    //        if ((port >= AllTests.ADS_PORTNUMBER_MIN)
-    //                & (port <= AllTests.ADS_PORTNUMBER_MAX))
-    //        {
-    //
-    //            for (int i = 0; i < 1000000; ++i) {
-    //
-    //                buffer = new
-    //                JNIByteBuffer(Convert.DoubleToByteArr(AllTests.DOUBLE_VAL));
-    //                err = AdsCallDllFunction.adsSyncWriteReq(
-    //                        addr,
-    //                        AllTests.INDEX_GROUP,
-    //                        AllTests.INDEX_OFF6,
-    //                        buffer.getUsedBytesCount(),
-    //                        buffer);
-    //
-    //                assertEquals("Test WriteRequest error value",
-    //                        AdsCallDllFunction.ADSERR_NO_ERR,
-    //                        err);
-    //            }
-    //
-    //            // Check whether this had effect on the PLC or not
-    //            err = AdsCallDllFunction.adsSyncReadReq(
-    //                    addr,
-    //                    AllTests.INDEX_GROUP,
-    //                    AllTests.INDEX_OFF6,
-    //                    buffer.getUsedBytesCount(),
-    //                    buffer);
-    //
-    //            assertEquals("Test WriteRequest-Check error value",
-    //                    AdsCallDllFunction.ADSERR_NO_ERR,
-    //                    err);
-    //
-    //            assertEquals("Test WriteRequest-Check (double)",
-    //                    AllTests.DOUBLE_VAL,
-    //                    Convert.ByteArrToDouble(buffer.getByteArray()),
-    //                    AllTests.FLOAT_COMPARE_DELTA);
-    //        } else {
-    //            fail();
-    //        }
-    //    }
 
     public void testWriteRequestInvalidIGroup() {
         if ((port >= AllTests.ADS_PORTNUMBER_MIN) &
@@ -324,7 +281,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest error value",
                          AdsCallDllFunction.ADSERR_SRVICE_NOT_SUPP, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
@@ -341,11 +298,11 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest error value",
                          AdsCallDllFunction.ADSERR_INV_AMS_NETID, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 
-    public void testWriteRequestInvalidBuff() {
+    public void testWriteRequestInvalidBuffer() {
         if ((port >= AllTests.ADS_PORTNUMBER_MIN) &
             (port <= AllTests.ADS_PORTNUMBER_MAX)) {
             buffer = null;
@@ -356,7 +313,7 @@ public class WriteRequestTest extends TestCase {
             assertEquals("Test WriteRequest error value",
                          AdsCallDllFunction.ADSERR_INV_PARAM_VALS2, err);
         } else {
-            fail();
+            fail("ADS port out of range: " + Long.toString(port));
         }
     }
 }

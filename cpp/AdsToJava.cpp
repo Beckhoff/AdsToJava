@@ -23,25 +23,38 @@
 const size_t DEVICE_NAME_MAX_LEN =
     16; // https://infosys.beckhoff.com/english.php?content=../content/1033/tcadsamsspec/html/tcadsamsspec_adscmd_readdeviceinfo.htm&id=1313400676238164711
 
-#ifndef POSIX
+#ifdef POSIX
+__attribute__((destructor)) void destructor() {
+    // free resources of libTcAdsDll.so during a crash
+    AdsPortClose();
+}
+#else
 BOOL APIENTRY DllMain(HANDLE hModule [[maybe_unused]],
                       uint32_t ul_reason_for_call,
                       LPVOID lpReserved [[maybe_unused]]) {
     switch (ul_reason_for_call) {
-    case DLL_PROCESS_ATTACH:
+    // case DLL_PROCESS_ATTACH: // AdsPortClose was also executed on
+    // DLL_PROCESS_ATTACH but this was removed after reading
+    // https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-best-practices
     case DLL_PROCESS_DETACH:
-        AdsPortClose(); // close ads.dll during a crash
+        // free resources of TcAdsDll.dll during a crash
+        AdsPortClose();
         break;
     default:
         break;
     }
     return TRUE;
 }
+#endif
 
 // AdsDoInitDll
 JNIEXPORT jlong JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitDll(
     JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]]) {
+#ifdef POSIX
+    // there is no equivalent of GetFileVersionInfoSize on this platform
+    const int major = ADSTOJAVA_FILE_VERSION_MAJOR;
+#else
     int major = 0;
     int minor = 0;
 
@@ -62,15 +75,18 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitDll(
                     if (verInfo->dwSignature == 0xfeef04bd) {
                         major = HIWORD(verInfo->dwFileVersionMS);
                         minor = LOWORD(verInfo->dwFileVersionMS);
+
+                        assert(major == ADSTOJAVA_FILE_VERSION_MAJOR);
+                        assert(minor == ADSTOJAVA_FILE_VERSION_MINOR);
                     }
                 }
             }
         }
     }
-
-    return major;
-}
 #endif
+
+    return static_cast<jlong>(major);
+}
 
 // AdsDoWhenUnloadDll
 JNIEXPORT auto JNICALL

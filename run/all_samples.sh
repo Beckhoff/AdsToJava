@@ -2,6 +2,7 @@
 set -e
 
 export PATH=$(pwd)/dist:$PATH
+export LD_LIBRARY_PATH=$(pwd)/dist:$LD_LIBRARY_PATH
 
 echo "Starting sample 02_AccessByVariableName..."
 java -jar ./dist/02_AccessByVariableName.jar

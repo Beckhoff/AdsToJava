@@ -20,6 +20,6 @@ fi
 if [ -f "./dist/AdsToJava.dll" ]; then
     mv ./dist/AdsToJava.dll ./dist/AdsToJava-3.dll
 fi
-if [ -f "./dist/AdsToJava.dll" ]; then
+if [ -f "./dist/libAdsToJava.so" ]; then
     mv ./dist/libAdsToJava.so ./dist/libAdsToJava-3.so
 fi
