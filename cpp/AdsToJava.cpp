@@ -19,6 +19,9 @@
 #include <memory>
 #include <string>
 #include <vector>
+#ifndef POSIX
+#include <assert.h>
+#endif
 
 const size_t DEVICE_NAME_MAX_LEN =
     16; // https://infosys.beckhoff.com/english.php?content=../content/1033/tcadsamsspec/html/tcadsamsspec_adscmd_readdeviceinfo.htm&id=1313400676238164711

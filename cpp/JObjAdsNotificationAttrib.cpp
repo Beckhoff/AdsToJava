@@ -21,7 +21,7 @@ void JObjAdsNotificationAttrib::setValuesInJObject(
 #ifdef POSIX
     case ADSTRANS_CLIENT1REQ:
 #else
-    case ADSTRANS_CLIENTONCHA:                // value 2 was renamed
+    case ADSTRANS_CLIENTONCHA: // value 2 was renamed
 #endif
         lTransMode = 2;
         break;
