@@ -3,8 +3,8 @@ package de.beckhoff.jni.tcads.adscalldllfunction.test;
 import de.beckhoff.jni.AllTests;
 import de.beckhoff.jni.tcads.AdsCallDllFunction;
 import de.beckhoff.jni.tcads.AmsAddr;
-import junit.framework.TestCase;
 import java.util.Arrays;
+import junit.framework.TestCase;
 
 /**
  *
@@ -37,7 +37,8 @@ public class GetLocalAmsAddressTest extends TestCase {
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
 
             assertTrue("Test GetLocalAmsAddr",
-                       Arrays.asList(AllTests.LOCAL_AMSADDR).contains(addr.getNetIdString()));
+                       Arrays.asList(AllTests.LOCAL_AMSADDR)
+                           .contains(addr.getNetIdString()));
         } else {
             fail("ADS port out of range: " + Long.toString(port));
         }

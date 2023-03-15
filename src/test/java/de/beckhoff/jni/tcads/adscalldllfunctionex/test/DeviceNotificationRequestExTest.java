@@ -58,7 +58,7 @@ public class DeviceNotificationRequestExTest extends TestCase {
             assertTrue("Test AddDeviceNotificationEx notification handle",
                        notification != null);
             assertTrue("Test AddDeviceNotificationEx notification handle (" +
-                       Long.toString(notification.getLong()) + ")",
+                           Long.toString(notification.getLong()) + ")",
                        notification.getLong() != 0);
 
             err = AdsCallDllFunction.adsSyncDelDeviceNotificationReqEx(

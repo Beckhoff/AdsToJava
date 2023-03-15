@@ -198,7 +198,7 @@ public class CallbackObjectTest extends TestCase {
             assertTrue("Test AddDeviceNotification notification handle",
                        notification != null);
             assertTrue("Test AddDeviceNotification notification handle (" +
-                       Long.toString(notification.getLong()) + ")",
+                           Long.toString(notification.getLong()) + ")",
                        notification.getLong() != 0);
 
             err = AdsCallDllFunction.adsSyncWriteReq(
