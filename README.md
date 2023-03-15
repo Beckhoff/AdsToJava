@@ -3,6 +3,7 @@
 This library is intended for use in ADS client applications written in the Java
 programming language.
 It was tested on Windows 10 using TwinCAT v3.1.4024.25 and OpenJDK 11.0.14.1.
+It has partial support for Tc/BSD using openjdk8-8.362.09.1.
 
 **It consists of two parts:**
 
@@ -61,8 +62,8 @@ bash ./bootstrap.sh
 bash ./bootstrap_full.sh
 ```
 
-The full build also runs the tests, code spell check
-and automated code formatting.
+The full build also enables all warnings and runs the tests,
+clang-tidy, code spell check and automated code formatting.
 Before running the tests you should activate the
 [TestPlc](plc/TestPlc/) project.
 

@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.18.0)
-project(AdsToJava VERSION 0.1.0)
+project(AdsToJava VERSION 3.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-# set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-fix")
-set(CMAKE_CXX_CLANG_TIDY clang-tidy)
+if (STRICT_WARNINGS)
+    # set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-fix")
+    set(CMAKE_CXX_CLANG_TIDY clang-tidy)
+endif()
 
 include(CTest)
 enable_testing()
@@ -30,10 +32,15 @@ if(MSVC)
     add_library(AdsToJava SHARED ${SOURCES}
         ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 
-    target_compile_options(AdsToJava PRIVATE /W4 /WX)
+    if (STRICT_WARNINGS)
+        target_compile_options(AdsToJava PRIVATE /W4 /WX)
+    endif()
 else()
     add_library(AdsToJava SHARED ${SOURCES})
-    target_compile_options(AdsToJava PRIVATE -Wall -Wextra -Wpedantic -Werror)
+
+    if (STRICT_WARNINGS)
+        target_compile_options(AdsToJava PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
 endif()
 
 add_compile_definitions(NOMINMAX)

@@ -7,7 +7,7 @@ set -e
 npm install  # CSpell is a NodeJS module
 . ./run/lint.sh
 
-. ./run/build_cpp.sh
-. ./run/build_java.sh
+. ./run/build_cpp_full.sh
+. ./run/build_java_full.sh
 . ./run/build_doc.sh
 . ./run/build_samples.sh

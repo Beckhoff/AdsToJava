@@ -5,6 +5,6 @@ set -e
 . ./run/clear.sh
 
 . ./run/build_cpp.sh
-. ./run/build_java_skip_tests.sh
+. ./run/build_java.sh
 . ./run/build_doc.sh
 . ./run/build_samples.sh
