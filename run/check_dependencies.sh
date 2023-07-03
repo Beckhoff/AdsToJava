@@ -36,3 +36,16 @@ then
     >&2 echo "Command 'cmake' does not exist. Install CMake."
     exit 1
 fi
+
+if [ -n "$JAVA_HOME" ]; then
+  echo "JAVA_HOME is $JAVA_HOME"
+else
+  java_version=$(java -version 2>&1)
+  echo "Java version: $java_version"
+  if [[ "$java_version" == *" 1.8"* ]] && [[ -d /usr/local/openjdk8 ]] && [[ "$OSTYPE" != "cygwin" ]] && [[ "$OSTYPE" != "msys" ]]; then
+    export JAVA_HOME=/usr/local/openjdk8
+    echo "The JAVA_HOME environment variable is not set. Automatically setting it to $JAVA_HOME."
+  else
+    echo "Please set the JAVA_HOME environment variable."
+  fi
+fi
