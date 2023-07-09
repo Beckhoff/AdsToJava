@@ -227,7 +227,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetDllVersion(
     ads_i32 version = AdsGetDllVersion();
 
     // convert the result and assign it to the according java parameter
-    static_assert(sizeof(version) == sizeof(AdsVersion), "invalid reinterpret_cast");
+    static_assert(sizeof(version) == sizeof(AdsVersion),
+                  "invalid reinterpret_cast");
     auto* pDLLVersion = reinterpret_cast<AdsVersion*>(&version);
     JObjAdsVersion lJObjAdsVersion(env, ljobj_ResultDllVersion);
     lJObjAdsVersion.setValuesInJObject(pDLLVersion);
