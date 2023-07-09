@@ -224,7 +224,7 @@ JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetDllVersion(
     JNIEnv* env, jobject obj [[maybe_unused]], jobject ljobj_ResultDllVersion)
     -> jlong {
-    long version = AdsGetDllVersion();
+    ads_i32 version = AdsGetDllVersion();
 
     // convert the result and assign it to the according java parameter
     static_assert(sizeof(version) == sizeof(AdsVersion), "invalid reinterpret_cast");
