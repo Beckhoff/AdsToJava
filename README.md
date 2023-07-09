@@ -40,8 +40,16 @@ Additional dependencies for the full build:
 
 ## Requirements on Tc/BSD
 
+To build this library, the following additional packages must be installed on your system:
+
 ```sh
 doas pkg install bash git openjdk8 maven cmake ninja os-generic-userland-devtools
+```
+
+Additional dependencies for the full build:
+
+```sh
+doas pkg install bash node npm-node18 llvm
 ```
 
 ## Initializing the Git Submodule
