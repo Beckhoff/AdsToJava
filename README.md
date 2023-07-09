@@ -12,7 +12,7 @@ It has partial support for Tc/BSD using openjdk8-8.362.09.1.
    **Tc/BSD:** `libAdsToJava-3.so`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `libTcAdsDll.so`.
 2. `TcJavaToAds-3.0.0.jar`: A Java archive that provides a straightforward way to call this JNI.
 
-## Requirements
+## Requirements on Windows
 
 For an optimal development experience, we recommend the use of
 [Visual Studio Code](https://code.visualstudio.com/).
@@ -38,6 +38,22 @@ Additional dependencies for the full build:
 - [NodeJS](https://nodejs.org/en/download/) for spell checking
   based on [cspell](https://www.npmjs.com/package/cspell)
 
+## Requirements on Tc/BSD
+
+```sh
+doas pkg install bash git openjdk8 maven cmake ninja os-generic-userland-devtools
+```
+
+## Initializing the Git Submodule
+
+This repository contains a [Submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
+
+Before you start, make sure that the submodule is initialized:
+
+```sh
+git submodule update --init --recursive
+```
+
 ## Build
 
 Run one of the following files using
@@ -54,11 +70,11 @@ bootstrap_full.bat
 Or execute one of these commands if you are on Tc/BSD or
 using [Git Bash](https://gitforwindows.org/) on Windows:
 
-```batch
+```sh
 bash ./bootstrap.sh
 ```
 
-```batch
+```sh
 bash ./bootstrap_full.sh
 ```
 
