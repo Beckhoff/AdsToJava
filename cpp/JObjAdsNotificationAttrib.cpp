@@ -18,11 +18,7 @@ void JObjAdsNotificationAttrib::setValuesInJObject(
     case ADSTRANS_CLIENTCYCLE:
         lTransMode = 1;
         break;
-#ifdef POSIX
     case ADSTRANS_CLIENT1REQ:
-#else
-    case ADSTRANS_CLIENTONCHA: // value 2 was renamed
-#endif
         lTransMode = 2;
         break;
     case ADSTRANS_SERVERCYCLE:
@@ -62,11 +58,7 @@ void JObjAdsNotificationAttrib::getValuesOutJObject(
         lADSTRANSMODE = ADSTRANS_CLIENTCYCLE;
         break;
     case 2:
-#ifdef POSIX
         lADSTRANSMODE = ADSTRANS_CLIENT1REQ;
-#else
-        lADSTRANSMODE = ADSTRANS_CLIENTONCHA; // ADSTRANS_CLIENT1REQ was renamed
-#endif
         break;
     case 3:
         lADSTRANSMODE = ADSTRANS_SERVERCYCLE;

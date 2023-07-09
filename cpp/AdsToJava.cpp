@@ -227,6 +227,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsGetDllVersion(
     long version = AdsGetDllVersion();
 
     // convert the result and assign it to the according java parameter
+    static_assert(sizeof(version) == sizeof(AdsVersion), "invalid reinterpret_cast");
     auto* pDLLVersion = reinterpret_cast<AdsVersion*>(&version);
     JObjAdsVersion lJObjAdsVersion(env, ljobj_ResultDllVersion);
     lJObjAdsVersion.setValuesInJObject(pDLLVersion);
@@ -669,13 +670,14 @@ JNIEXPORT auto JNICALL
 Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsPortEnabled(
     JNIEnv* env, jobject obj [[maybe_unused]], jobject lj_pEnabled) -> jlong {
     // ADS call
-    BOOL data = 0;
+    ads_bool data = 0;
     const long nErr = AdsAmsPortEnabled(&data);
 
     // Convert the result and assign it to the according java parameter
     // Set the response buffer
     JObjJNIBool ljObjJNIBool(env, lj_pEnabled);
-    ljObjJNIBool.setValuesInJObject(reinterpret_cast<bool*>(&data));
+    auto bData = static_cast<bool>(data);
+    ljObjJNIBool.setValuesInJObject(&bData);
 
     return static_cast<jlong>(nErr);
 }
@@ -1234,14 +1236,15 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsAmsPortEnabledEx(
     jlong lj_nPort, // AMS port of ADS client
     jobject lj_pEnabled) -> jlong {
     // ADS call
-    BOOL data = 0;
+    ads_bool data = 0;
     const long nErr =
         AdsAmsPortEnabledEx(static_cast<ADS_INT32_OR_LONG>(lj_nPort), &data);
 
     // Convert the result and assign it to the according java parameter
     // Get the response buffer
     JObjJNIBool ljObjJNIBool(env, lj_pEnabled);
-    ljObjJNIBool.setValuesInJObject(reinterpret_cast<bool*>(&data));
+    auto bData = static_cast<bool>(data);
+    ljObjJNIBool.setValuesInJObject(&bData);
 
     return static_cast<jlong>(nErr);
 }

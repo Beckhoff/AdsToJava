@@ -14,7 +14,7 @@ public class AdsConstants {
     public final static int ADSTRANS_CLIENTCYCLE = 1;
     public final static int ADSTRANS_CLIENT1REQ = 2;
     public final static int ADSTRANS_CLIENTONCHA =
-        2; // the new name for ADSTRANS_CLIENT1REQ
+        2; // the alternative name for ADSTRANS_CLIENT1REQ
     /**
      * The AdsSyncNotification-Event is fired cyclically.
      */
