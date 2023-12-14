@@ -1,3 +1,5 @@
+@ECHO OFF
+
 IF EXIST build (
     rmdir /q /s build || exit /b %errorlevel%
 )

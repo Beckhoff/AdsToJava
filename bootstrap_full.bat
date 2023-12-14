@@ -1,3 +1,5 @@
+@ECHO OFF
+
 CALL run/check_dependencies_full.bat || exit /b %errorlevel%
 CALL run/clear.bat || exit /b %errorlevel%
 

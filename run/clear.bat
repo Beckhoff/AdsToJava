@@ -1,3 +1,5 @@
+@ECHO OFF
+
 IF EXIST dist (
     rmdir /q /s dist || exit /b %errorlevel%
 ) ELSE echo "does not exist"

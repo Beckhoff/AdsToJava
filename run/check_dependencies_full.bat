@@ -1,3 +1,5 @@
+@ECHO OFF
+
 CALL run/check_dependencies.bat
 
 WHERE npm >NUL 2>NUL

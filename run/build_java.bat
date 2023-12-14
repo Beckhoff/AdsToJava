@@ -1,3 +1,5 @@
+@ECHO OFF
+
 SET PATH=%cd%\dist\;%PATH%
 
 REM this call also runs all the tests and create coverage report

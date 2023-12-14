@@ -1,3 +1,5 @@
+@ECHO OFF
+
 IF NOT EXIST dist (
     mkdir dist || exit /b %errorlevel%
 )

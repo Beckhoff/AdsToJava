@@ -1,3 +1,5 @@
+@ECHO OFF
+
 SET PATH=%cd%\dist\;%PATH%
 
 CALL mvn.cmd spotbugs:check -f "pom.xml" || exit /b %errorlevel%

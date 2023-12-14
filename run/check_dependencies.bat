@@ -1,3 +1,5 @@
+@ECHO OFF
+
 WHERE java >NUL 2>NUL
 IF %ERRORLEVEL% NEQ 0 (
     echo "Command 'java' does not exist. Install OpenJDK or some other Java Development Kit."

@@ -1,3 +1,5 @@
+@ECHO OFF
+
 SET PATH=%cd%\dist\;%PATH%
 
 echo "Starting sample 02_AccessByVariableName..."
