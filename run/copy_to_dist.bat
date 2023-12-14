@@ -14,7 +14,6 @@ IF EXIST build_x64 (
         )
     )
 )
-
-IF EXIST "./dist/AdsToJava.dll" (
-    ren ./dist/AdsToJava.dll ./dist/AdsToJava-3.dll || exit /b %errorlevel%
+IF EXIST dist\AdsToJava.dll (
+    ren dist\AdsToJava.dll dist\AdsToJava-3.dll || exit /b %errorlevel%
 )
