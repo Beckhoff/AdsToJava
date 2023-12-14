@@ -11,6 +11,9 @@ import de.beckhoff.jni.*;
  * @author Beckhoff Automation
  */
 public class AdsCallDllFunction {
+    /**
+     * Int constant containing the size of the device name buffer.
+     */
     public static final short ADS_FIXEDNAMESIZE = 16;
     /**
      * Int constant containing the port number of the standard loggers.
@@ -92,20 +95,59 @@ public class AdsCallDllFunction {
      */
     public static final long AMSPORT_R3_SYSSERV = 10000;
 
-    // ADS reserved index groups and offsets
+    /**
+     * ADS index group: Symbol table
+     */
     public static final int ADSIGRP_SYMTAB = 0xF000;
+    /**
+     * ADS index group: Symbol name
+     */
     public static final int ADSIGRP_SYMNAME = 0xF001;
+    /**
+     * ADS index group: Symbol value
+     */
     public static final int ADSIGRP_SYMVAL = 0xF002;
+    /**
+     * ADS index group: Symbol handle by name
+     */
     public static final int ADSIGRP_SYM_HNDBYNAME = 0xF003;
+    /**
+     * ADS index group: Symbol value by name
+     */
     public static final int ADSIGRP_SYM_VALBYNAME = 0xF004;
+    /**
+     * ADS index group: Symbol value by handle
+     */
     public static final int ADSIGRP_SYM_VALBYHND = 0xF005;
+    /**
+     * ADS index group: Release symbol handle
+     */
     public static final int ADSIGRP_SYM_RELEASEHND = 0xF006;
+    /**
+     * ADS index group: Symbol info by name
+     */
     public static final int ADSIGRP_SYM_INFOBYNAME = 0xF007;
+    /**
+     * ADS index group: Symbol version
+     */
     public static final int ADSIGRP_SYM_VERSION = 0xF008;
+    /**
+     * ADS index group: Symbol info by name
+     */
     public static final int ADSIGRP_SYM_INFOBYNAMEEX = 0xF009;
+    /**
+     * ADS index group: Symbol download
+     */
     public static final int ADSIGRP_SYM_DOWNLOAD = 0xF00A;
+    /**
+     * ADS index group: Symbol upload
+     */
     public static final int ADSIGRP_SYM_UPLOAD = 0xF00B;
+    /**
+     * ADS index group: Symbol upload info
+     */
     public static final int ADSIGRP_SYM_UPLOADINFO = 0xF00C;
+
     /**
      * Int constant containing the IndexGroup to get a notification by a named
      * handle.
@@ -690,6 +732,11 @@ public class AdsCallDllFunction {
     private static AdsCallbackObject adsCallbackObject = null;
 
     private static long jniWrapperDllVersion = 0;
+
+    /**
+     * Checks whether the version of the wrapper DLL not 1
+     * @return true if it is indeed not 1
+     */
     public static boolean jniWrapperDllVersionNot1() {
         return jniWrapperDllVersion != 1;
     }

@@ -13,15 +13,15 @@ import java.util.regex.Pattern;
  */
 public class AmsAddr {
     private AmsNetId mNetId;
-    public int mPort;
+    private int mPort;
 
     // SuppressFBWarnings("UUF_UNUSED_PUBLIC_OR_PROTECTED_FIELD")
-    public char mNetIdPart0;
-    public char mNetIdPart1;
-    public char mNetIdPart2;
-    public char mNetIdPart3;
-    public char mNetIdPart4;
-    public char mNetIdPart5;
+    private char mNetIdPart0;
+    private char mNetIdPart1;
+    private char mNetIdPart2;
+    private char mNetIdPart3;
+    private char mNetIdPart4;
+    private char mNetIdPart5;
 
     /**
      * Class constructor.

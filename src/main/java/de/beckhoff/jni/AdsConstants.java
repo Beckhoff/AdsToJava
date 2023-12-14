@@ -11,8 +11,17 @@ public class AdsConstants {
      * The AdsSyncNotification-Event is not fired.
      */
     public final static int ADSTRANS_NOTRANS = 0;
+    /**
+     * Client triggered cyclic AdsNotification event.
+     */
     public final static int ADSTRANS_CLIENTCYCLE = 1;
+    /**
+     * The AdsNotification event is fired when data changes triggered by the client.
+     */
     public final static int ADSTRANS_CLIENT1REQ = 2;
+    /**
+     * The AdsNotification event is fired when data changes triggered by the client.
+     */
     public final static int ADSTRANS_CLIENTONCHA =
         2; // the alternative name for ADSTRANS_CLIENT1REQ
     /**

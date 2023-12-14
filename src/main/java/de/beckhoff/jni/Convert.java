@@ -394,6 +394,7 @@ public class Convert {
      * This method converts a String to a byte[]. Whether or not a terminating
      * zero byte is appended may be controlled by setting appendNullByte to true
      * or false.
+     * This method assumes "UTF-8" encoding.
      *
      * @param data
      *    the String to be converted.
@@ -407,6 +408,21 @@ public class Convert {
         return StringToByteArr(data, appendNullByte, "UTF-8");
     }
 
+    /**
+     * This method converts a String to a byte[]. Whether or not a terminating
+     * zero byte is appended may be controlled by setting appendNullByte to true
+     * or false.
+     *
+     * @param data
+     *    the String to be converted.
+     * @param appendNullByte
+     *    specifies whether a null character should be added to the end of the
+     *    string.
+     * @param expectedEncoding
+     *    specified the encoding of the data, e.g. "UTF-8"
+     * @return
+     *    the result of the conversion of type byte[].
+     */
     public static byte[] StringToByteArr(String data, boolean appendNullByte,
                                          String expectedEncoding) {
         try {
