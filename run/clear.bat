@@ -2,7 +2,7 @@
 
 IF EXIST dist (
     rmdir /q /s dist || exit /b %errorlevel%
-) ELSE echo "does not exist"
+)
 IF EXIST build (
     rmdir /q /s build || exit /b %errorlevel%
 )
