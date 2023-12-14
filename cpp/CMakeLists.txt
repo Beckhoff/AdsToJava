@@ -66,17 +66,17 @@ if (WIN32)
             endif()
         endif()
     endif()
-    if(NOT EXISTS "${TWINCAT_INSTALL_DIR}/sdk/Include")
-        message(FATAL_ERROR "Make sure that TwinCAT 3.1 is installed correctly (${TWINCAT_INSTALL_DIR}/sdk/Include does not exist).")
+    if(EXISTS "${TWINCAT_INSTALL_DIR}/sdk/Include")
+        # preferring the sdk/Include directory because the header files from ../AdsApi/TcAdsDll/Include/ might be too old
+        target_include_directories(AdsToJava PRIVATE "${TWINCAT_INSTALL_DIR}/sdk/Include/")
+    else()
+        target_include_directories(AdsToJava PRIVATE "${TWINCAT_INSTALL_DIR}/../AdsApi/TcAdsDll/Include")
     endif()
-
-    # preferring the sdk/Include directory because the header files from ../AdsApi/TcAdsDll/Include/ might be too old
-    target_include_directories(AdsToJava PRIVATE "${TWINCAT_INSTALL_DIR}/sdk/Include/")
 
     if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
         find_library(TC_ADS_DLL_LIBRARY NAMES "TcAdsDll" "libTcAdsDll" HINTS "${TWINCAT_INSTALL_DIR}/../AdsApi/TcAdsDll/Lib/" REQUIRED)
     else()
-        find_library(TC_ADS_DLL_LIBRARY NAMES "TcAdsDll" "libTcAdsDll" HINTS "${TWINCAT_INSTALL_DIR}/../AdsApi/TcAdsDll/x64/lib/" REQUIRED)
+        find_library(TC_ADS_DLL_LIBRARY NAMES "TcAdsDll" "libTcAdsDll" HINTS "${TWINCAT_INSTALL_DIR}/../AdsApi/TcAdsDll/Lib/x64/" "${TWINCAT_INSTALL_DIR}/../AdsApi/TcAdsDll/x64/lib/" REQUIRED)
     endif()
 else()
     target_include_directories(AdsToJava PRIVATE "/usr/local/include/")
