@@ -52,16 +52,6 @@ Additional dependencies for the full build:
 doas pkg install bash node npm-node18 llvm
 ```
 
-## Initializing the Git Submodule
-
-This repository contains a [Submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
-
-Before you start, make sure that the submodule is initialized:
-
-```sh
-git submodule update --init --recursive
-```
-
 ## Build
 
 Run one of the following files using
@@ -123,7 +113,6 @@ Overview of the folder structure of this repository:
 ├── build*   # Full C++ build output: x64 (and win32)
 ├── target   # Full Java build output including coverage report
 ├── plc      # PLC projects for the tests and samples
-├── jdk      # OpenJDK submodule for the JNI header files
 ```
 
 ## Contributing

@@ -1,4 +1,0 @@
-[submodule "jdk"]
-	path = jdk
-	url = https://github.com/openjdk/jdk.git
-	shallow = true
