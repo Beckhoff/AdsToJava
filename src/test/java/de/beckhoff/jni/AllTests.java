@@ -61,16 +61,6 @@ public class AllTests extends TestCase {
     public static final String DEVICE_NAME = "Plc30 App"; // TCatPlcCtrl
     public static final String EMPTY_DEVICE_NAME = "";
 
-    // This variable contains the AMS Net IDs of the devices i am usually
-    // testing on. It is used in the tests to verify that the native functions
-    // return the correct AMS Net ID.
-    //
-    // TODO: Find the correct AMS Net ID by another means, e.g. by looking
-    //       into a file in the TwinCAT/3.1 directory. The current solution is
-    //       annoying for other people that want to execute the tests.
-    public static final String[] LOCAL_AMSADDR = {"172.17.32.1.1.1",
-                                                  "5.19.60.56.1.1"};
-
     public static final int ADS_PORTNUMBER_MIN = 32768;
     public static final int ADS_PORTNUMBER_MAX = 49150;
 

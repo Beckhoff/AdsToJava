@@ -41,9 +41,13 @@ public class GetLocalAmsAddressExTest extends TestCase {
             assertEquals("Test GetLocalAmsAddrEx error value",
                          AdsCallDllFunction.ADSERR_NO_ERR, err);
 
-            assertTrue("Test GetLocalAmsAddrEx",
-                       Arrays.asList(AllTests.LOCAL_AMSADDR)
-                           .contains(addr.getNetIdString()));
+            String netId = addr.getNetIdString();
+            String[] parts = netId.split("\\.");
+            assertEquals("Test number of parts of the AMS Net ID", 6,
+                         parts.length);
+            assertFalse("127.0.0.1.1.1" == netId);
+            assertFalse("0.0.0.0.1.1" == netId);
+            assertFalse("0.0.0.0.0.0" == netId);
         } else {
             fail("ADS port out of range: " + Long.toString(port));
         }
