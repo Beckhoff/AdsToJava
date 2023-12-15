@@ -59,7 +59,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitDll(
     const int major = ADSTOJAVA_FILE_VERSION_MAJOR;
 #else
     int major = 0;
-    int minor = 0;
+    [[maybe_unused]] int minor = 0;
 
     DWORD verHandle = 0;
     uint32_t size = 0;
