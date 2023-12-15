@@ -1,9 +1,7 @@
 # TwinCAT AdsToJava
 
 This library is intended for use in ADS client applications written in the Java
-programming language.
-It was tested on Windows 10 using TwinCAT v3.1.4024.25 and OpenJDK 11.0.14.1.
-It has partial support for Tc/BSD using openjdk8-8.362.09.1.
+programming language. It was tested on Windows 10 and Tc/BSD 13.2.
 
 **It consists of two parts:**
 
@@ -26,15 +24,17 @@ installed on your system:
 - A Java Development Kit, for example, the
   [Microsoft Build of OpenJDK](https://docs.microsoft.com/en-us/java/openjdk/download)
 - [Apache Maven](https://maven.apache.org/download.cgi)
-- [CMake](https://cmake.org/download/)
-- Microsoft Visual C++ ([MSVC](https://visualstudio.microsoft.com/downloads#other)) compiler toolset
+- [Microsoft Visual Studio](https://visualstudio.microsoft.com/downloads#other)
+  with the C++ workload (The 2022 version is recommended)
+- [CMake](https://cmake.org/download/) (Might already
+  be installed as a Visual Studio component)
 - The [TwinCAT 3](https://www.beckhoff.com/en-en/products/automation/twincat/)
   automation software from Beckhoff Automation
 
 Additional dependencies for the full build:
 
-- An [LLVM](https://llvm.org/builds/) installation that
-  includes `clang-format`
+- [Clang Format](https://llvm.org/builds/) (Might already
+  be installed as a Visual Studio component)
 - [NodeJS](https://nodejs.org/en/download/) for spell checking
   based on [cspell](https://www.npmjs.com/package/cspell)
 
@@ -49,7 +49,7 @@ doas pkg install bash git openjdk8 maven cmake ninja os-generic-userland-devtool
 Additional dependencies for the full build:
 
 ```sh
-doas pkg install bash node npm-node18 llvm
+doas pkg install node18 npm-node18 llvm
 ```
 
 ## Build
@@ -76,7 +76,7 @@ bash ./bootstrap.sh
 bash ./bootstrap_full.sh
 ```
 
-The full build also enables all warnings and runs the tests,
+The **full build** also enables all warnings and runs the tests,
 clang-tidy, code spell check and automated code formatting.
 Before running the tests you should activate the
 [TestPlc](plc/TestPlc/) project.
@@ -85,8 +85,8 @@ Before running the tests you should activate the
 win32 version of the `AdsToJava-3.dll`. Depending on your system,
 one of them is copied to the `dist/` directory. You can find
 the other version in the `build*/Release` directory.
-There is no 32 bit version of Tc/BSD operating system so there is
-no need for a 32 bit version of this library on Tc/BSD.
+There is no 32 bit version of the Tc/BSD operating system so there
+is no need for a 32 bit version of this library on Tc/BSD.
 
 ## Samples
 
