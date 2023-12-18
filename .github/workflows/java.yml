@@ -1,0 +1,40 @@
+name: Build Java project (CI for the C++ part not implemented, yet)
+
+on: push
+
+env:
+  JAVA_VERSION: '8'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+
+    - name: 'Clear'
+      shell: cmd
+      run: |
+        CALL run\clear.bat
+
+    - name: 'Build Java'
+      shell: cmd
+      run: |
+        CALL run\build_java.bat
+
+    - name: 'Build Documentation'
+      shell: cmd
+      run: |
+        CALL run\build_doc.bat
+
+    - name: 'Build Samples'
+      shell: cmd
+      run: |
+        CALL run\build_samples.bat
+
