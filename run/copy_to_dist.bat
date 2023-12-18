@@ -1,6 +1,6 @@
 @ECHO OFF
 
-IF NOT EXIST dist rmdir /q /s dist
+IF EXIST dist rmdir /q /s dist
 mkdir dist || exit /b %errorlevel%
 
 IF EXIST build_x64 (
@@ -15,5 +15,5 @@ IF EXIST build_x64 (
     )
 )
 IF EXIST dist\AdsToJava.dll (
-    ren dist\AdsToJava.dll dist\AdsToJava-3.dll || exit /b %errorlevel%
+    move dist\AdsToJava.dll dist\AdsToJava-3.dll || exit /b %errorlevel%
 )
