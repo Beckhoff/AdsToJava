@@ -41,22 +41,24 @@ jobs:
         CALL bootstrap.bat
 
     - name: 'Compress documentation for release'
-      if: github.ref == 'refs/heads/main'
       shell: pwsh
       run: |
         Compress-Archive -Path dist\doc\* -DestinationPath dist\documentation.zip
 
     - name: 'Compress .jar files for release'
-      if: github.ref == 'refs/heads/main'
       shell: pwsh
       run: |
         Compress-Archive -Path dist\*.jar -DestinationPath dist\java.zip
 
-    - name: 'Compress .dll files for release'
-      if: github.ref == 'refs/heads/main'
+    - name: 'Compress win-x64 DLL file for release'
       shell: pwsh
       run: |
-        Compress-Archive -Path dist\*.dll -DestinationPath dist\win-x64.zip
+        Compress-Archive -Path build_x64\Release\AdsToJava-3.dll -DestinationPath dist\win-x64.zip
+
+    - name: 'Compress win-x86 DLL file for release'
+      shell: pwsh
+      run: |
+        Compress-Archive -Path build_win32\Release\AdsToJava-3.dll -DestinationPath dist\win-x86.zip
 
     - name: Create release
       if: github.ref == 'refs/heads/main'
@@ -100,4 +102,15 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./dist/win-x64.zip
         asset_name: win-x64.zip
+        asset_content_type: application/zip
+
+    - name: 'Upload release asset: win-x86.zip'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./dist/win-x86.zip
+        asset_name: win-x86.zip
         asset_content_type: application/zip
