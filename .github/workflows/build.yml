@@ -50,9 +50,9 @@ jobs:
       if: github.ref == 'refs/heads/main'
       shell: pwsh
       run: |
-        Compress-Archive -Path dist\* -DestinationPath dist\java.zip
+        Compress-Archive -Path dist\*.jar -DestinationPath dist\java.zip
 
-    - name: 'Compress DLL for release'
+    - name: 'Compress .dll files for release'
       if: github.ref == 'refs/heads/main'
       shell: pwsh
       run: |
