@@ -6,4 +6,4 @@ dist/
 dependencies/
 node_modules/
 Testing/
-samples/[0-9][0-9]_*/*.class
+samples/*/[0-9][0-9]_*/*.class

@@ -16,6 +16,24 @@ jmethodID mid_AdsStateCallback = 0;
 jmethodID mid_AdsRouterCallback = 0;
 
 extern "C" {
+// AddLocalRoute
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAddLocalRoute(
+    JNIEnv* env, jobject obj,
+    jobject lj_AmsNetId, // AMS NetId of ADS server
+    jstring lj_IpAddr);  // IP address, where the ADS server can be found
+
+// DelLocalRoute
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDelLocalRoute(
+    JNIEnv* env, jobject obj,
+    jobject lj_AmsNetId); // AMS NetId of ADS server
+
+// SetLocalAddress
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllSetLocalAddress(
+    JNIEnv* env, jobject obj,
+    jobject lj_AmsNetId); // AMS NetId of ADS server
 
 // AdsGetDllVersion
 JNIEXPORT jlong JNICALL

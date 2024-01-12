@@ -5,7 +5,7 @@
 JObjAmsAddr::JObjAmsAddr(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
 
-void JObjAmsAddr::setValuesInJObject(PAmsAddr pAddr) {
+void JObjAmsAddr::setValuesInJObject(const AmsAddr* pAddr) {
     setJObjectValue("mPort", static_cast<jint>(pAddr->port));
 
     // set both versions of the AmsNetId.
