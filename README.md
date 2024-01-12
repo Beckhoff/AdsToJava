@@ -9,7 +9,7 @@ The Linux support is still in the beta phase, as detailed below.
 1. **Windows:** `AdsToJava-3.dll`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `TcAdsDll.dll`.
 
    **Tc/BSD:** `libAdsToJava-3.so`: A JNI-based wrapper ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) for the `libTcAdsDll.so`.
-2. `TcJavaToAds-3.0.0.jar`: A Java archive that provides a straightforward way to call this JNI.
+2. `TcJavaToAds-3.1.0.jar`: A Java archive that provides a straightforward way to call this JNI.
 
 ## Requirements on Windows
 
