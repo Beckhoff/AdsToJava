@@ -211,16 +211,6 @@ jobs:
         asset_path: ./samples-tcadsdll.zip
         asset_name: samples-tcadsdll.zip
         asset_content_type: application/zip
-    - name: 'Upload release asset: samples-tcadsdll.zip'
-      if: github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./samples-tcadsdll.zip
-        asset_name: samples-tcadsdll.zip
-        asset_content_type: application/zip
     - name: 'Upload release asset: samples-adslib.zip'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
@@ -230,16 +220,6 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./samples-adslib.zip
         asset_name: samples-adslib.zip
-        asset_content_type: application/zip
-    - name: 'Upload release asset: java.zip'
-      if: github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/java.zip
-        asset_name: java.zip
         asset_content_type: application/zip
     - name: 'Upload release asset: win-x64.zip'
       if: github.ref == 'refs/heads/main'
