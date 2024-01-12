@@ -6,7 +6,7 @@ env:
   JAVA_VERSION: '8'
 
 jobs:
-  build:
+  build-windows:
     runs-on: windows-latest
     environment: dev
     steps:
@@ -40,25 +40,135 @@ jobs:
       run: |
         CALL bootstrap.bat
 
-    - name: 'Compress documentation for release'
+    - name: 'Compress documentation'
       shell: pwsh
       run: |
         Compress-Archive -Path dist\doc\* -DestinationPath dist\documentation.zip
-
-    - name: 'Compress .jar files for release'
+    - name: 'Compress .jar files of the TcAdsDll samples'
       shell: pwsh
       run: |
-        Compress-Archive -Path dist\*.jar -DestinationPath dist\java.zip
-
-    - name: 'Compress win-x64 DLL file for release'
+        Compress-Archive -Path dist\0*.jar, dist\1*.jar -DestinationPath dist\samples-tcadsdll.zip
+    - name: 'Compress win-x64 DLL file'
       shell: pwsh
       run: |
         Compress-Archive -Path build_x64\Release\AdsToJava-3.dll -DestinationPath dist\win-x64.zip
-
-    - name: 'Compress win-x86 DLL file for release'
+    - name: 'Compress win-x86 DLL file'
       shell: pwsh
       run: |
         Compress-Archive -Path build_win32\Release\AdsToJava-3.dll -DestinationPath dist\win-x86.zip
+
+    - name: Upload .jar files of the TcAdsDll samples as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: samples-tcadsdll
+        path: dist/samples-tcadsdll.zip
+        retention-days: 3
+    - name: Upload documentation archive as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: dist/documentation.zip
+        retention-days: 3
+    - name: Upload win-x64 binaries as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: win-x64
+        path: dist/win-x64.zip
+        retention-days: 3
+    - name: Upload win-x86 binaries as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: win-x86
+        path: dist/win-x86.zip
+        retention-days: 3
+    - name: Upload the TcJavaToAds library as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: tcjavatoads
+        path: dist/TcJavaToAds-3.0.0.jar
+        retention-days: 3
+
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub action'
+      uses: actions/checkout@v3
+      with:
+        submodules: 'true'   
+
+    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+  
+    - name: Install other dependencies as ubuntu packages
+      run: sudo apt update -y && sudo apt install -y ninja-build
+
+    - name: 'Run the bootstrap bash script'
+      shell: bash
+      run: |
+        ./bootstrap.sh
+
+    - name: 'Compress linux-x64 .so files'
+      shell: bash
+      run: |
+        zip --junk-paths ./dist/linux-x64.zip ./dist/*.so
+    - name: 'Compress .jar files of the adslib samples'
+      shell: bash
+      run: |
+        zip --junk-paths ./dist/samples-adslib.zip ./dist/*_adslib.jar
+
+    - name: Upload .jar files of the adslib samples as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: samples-adslib
+        path: dist/samples-adslib.zip
+        retention-days: 3
+    - name: Upload linux-x64 binaries as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux-x64
+        path: dist/linux-x64.zip
+        retention-days: 3
+
+  collect-and-release:
+    needs: [build-windows, build-ubuntu]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifact tcjavatoads
+      uses: actions/download-artifact@v3
+      with:
+        name: tcjavatoads
+    - name: Download artifact samples-tcadsdll
+      uses: actions/download-artifact@v3
+      with:
+        name: samples-tcadsdll
+    - name: Download artifact samples-adslib
+      uses: actions/download-artifact@v3
+      with:
+        name: samples-adslib
+    - name: Download artifact documentation
+      uses: actions/download-artifact@v3
+      with:
+        name: documentation
+    - name: Download artifact win-x64
+      uses: actions/download-artifact@v3
+      with:
+        name: win-x64
+    - name: Download artifact win-x86
+      uses: actions/download-artifact@v3
+      with:
+        name: win-x86
+    - name: Download artifact linux-x64
+      uses: actions/download-artifact@v3
+      with:
+        name: linux-x64
+
+    - name: 'List what is in the working directory'
+      shell: bash
+      run: |
+        ls -la
 
     - name: Create release
       if: github.ref == 'refs/heads/main'
@@ -71,6 +181,16 @@ jobs:
         release_name: 3.0.0-${{ github.run_number }}
         generate_release_notes: true
 
+    - name: 'Upload release asset: TcJavaToAds-3.0.0.jar'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./TcJavaToAds-3.0.0.jar
+        asset_name: TcJavaToAds-3.0.0.jar
+        asset_content_type: application/java-archive
     - name: 'Upload release asset: documentation.zip'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
@@ -78,10 +198,39 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/documentation.zip
+        asset_path: ./documentation.zip
         asset_name: documentation.zip
         asset_content_type: application/zip
-
+    - name: 'Upload release asset: samples-tcadsdll.zip'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./samples-tcadsdll.zip
+        asset_name: samples-tcadsdll.zip
+        asset_content_type: application/zip
+    - name: 'Upload release asset: samples-tcadsdll.zip'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./samples-tcadsdll.zip
+        asset_name: samples-tcadsdll.zip
+        asset_content_type: application/zip
+    - name: 'Upload release asset: samples-adslib.zip'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./samples-adslib.zip
+        asset_name: samples-adslib.zip
+        asset_content_type: application/zip
     - name: 'Upload release asset: java.zip'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
@@ -92,7 +241,6 @@ jobs:
         asset_path: ./dist/java.zip
         asset_name: java.zip
         asset_content_type: application/zip
-
     - name: 'Upload release asset: win-x64.zip'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
@@ -100,10 +248,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/win-x64.zip
+        asset_path: ./win-x64.zip
         asset_name: win-x64.zip
         asset_content_type: application/zip
-
     - name: 'Upload release asset: win-x86.zip'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
@@ -111,6 +258,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/win-x86.zip
+        asset_path: ./win-x86.zip
         asset_name: win-x86.zip
+        asset_content_type: application/zip
+    - name: 'Upload release asset: linux-x64.zip'
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./linux-x64.zip
+        asset_name: linux-x64.zip
         asset_content_type: application/zip
