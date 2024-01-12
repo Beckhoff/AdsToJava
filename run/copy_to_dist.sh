@@ -15,4 +15,16 @@ elif [ -d "./build" ]; then
     if [ -d "./build/Release" ]; then
         cp ./build/Release/*.dll ./dist/
     fi
+
+    OSCHECK="$(uname -s)"
+    USE_OPENSOURCE_ADSLIB=false
+    case "${OSCHECK}" in
+        MINGW*) USE_OPENSOURCE_ADSLIB=false ;;
+        FreeBSD) USE_OPENSOURCE_ADSLIB=false ;;
+        *) USE_OPENSOURCE_ADSLIB=true ;;
+    esac
+
+    if [ "$USE_OPENSOURCE_ADSLIB" = true ] ; then
+        cp ./adslib_for_linux/build/AdsLib/*.so ./dist/
+    fi
 fi

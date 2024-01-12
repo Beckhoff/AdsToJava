@@ -1,5 +1,9 @@
 #include "StdAfx.h"
+#ifdef USE_OPENSOURCE_ADSLIB
+#include "AdsLib.h"
+#else
 #include "TcAdsAPI.h"
+#endif
 
 #include "jni.h"
 
@@ -26,7 +30,10 @@
 const size_t DEVICE_NAME_MAX_LEN =
     16; // https://infosys.beckhoff.com/english.php?content=../content/1033/tcadsamsspec/html/tcadsamsspec_adscmd_readdeviceinfo.htm&id=1313400676238164711
 
-#ifdef POSIX
+#ifdef USE_OPENSOURCE_ADSLIB
+// AdsPortClose is not supported by the open-source ADS lib
+// (https://github.com/Beckhoff/ADS), only AdsPortCloseEx
+#elif defined(POSIX)
 __attribute__((destructor)) void destructor() {
     // free resources of libTcAdsDll.so during a crash
     AdsPortClose();
@@ -104,9 +111,13 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoWhenUnloadDll(
 // Forwarding of Adsdll.dll callbacks to java
 
 // ADS-State Callback-Function
-void ADSSTDCALL AdsStateCallback(AmsAddr* pAddr,
-                                 AdsNotificationHeader* pNotification,
-                                 ADS_UINT32_OR_ULONG hUser) {
+void ADSSTDCALL AdsStateCallback(
+#ifdef USE_OPENSOURCE_ADSLIB
+    const AmsAddr* pAddr, const AdsNotificationHeader* pNotification,
+#else
+    AmsAddr* pAddr, AdsNotificationHeader* pNotification,
+#endif
+    ADS_NOTIFICATION_USER_HANDLE hUser) {
     // attach to the current running thread
     JNIEnv* env = nullptr;
     jvm->AttachCurrentThread(reinterpret_cast<void**>(&env), jvm);
@@ -218,6 +229,76 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDoInitCallbacks(
 
 //////////////////////////////////////////////
 ///////////////////////////// Adsdll.dll-calls
+
+// AddLocalRoute
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAddLocalRoute(
+    JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]],
+    jobject lj_AmsNetId [[maybe_unused]], jstring lj_IpAddr [[maybe_unused]]) {
+#ifdef USE_OPENSOURCE_ADSLIB
+    // convert the parameters to cpp value types and make the ADS call
+    AmsNetId NetId;
+    PAmsNetId pNetId = &NetId;
+
+    JObjAmsNetId lJObjAmsNetId(env, lj_AmsNetId);
+    lJObjAmsNetId.getValuesOutJObject(pNetId);
+
+    const char* IpAddress = env->GetStringUTFChars(lj_IpAddr, nullptr);
+
+    // ADS call
+    return bhf::ads::AddLocalRoute(NetId, IpAddress);
+#else
+    // only supported with the open-source ADS lib
+    // (https://github.com/Beckhoff/ADS)
+    return ADSERR_DEVICE_SRVNOTSUPP;
+#endif
+}
+
+// DelLocalRoute
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllDelLocalRoute(
+    JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]],
+    jobject lj_AmsNetId [[maybe_unused]]) {
+#ifdef USE_OPENSOURCE_ADSLIB
+    // convert the parameters to cpp value types and make the ADS call
+    AmsNetId NetId;
+    PAmsNetId pNetId = &NetId;
+
+    JObjAmsNetId lJObjAmsNetId(env, lj_AmsNetId);
+    lJObjAmsNetId.getValuesOutJObject(pNetId);
+
+    // ADS call
+    bhf::ads::DelLocalRoute(NetId);
+    return ADSERR_NOERR;
+#else
+    // only supported with the open-source ADS lib
+    // (https://github.com/Beckhoff/ADS)
+    return ADSERR_DEVICE_SRVNOTSUPP;
+#endif
+}
+
+// SetLocalAddress
+JNIEXPORT jlong JNICALL
+Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllSetLocalAddress(
+    JNIEnv* env [[maybe_unused]], jobject obj [[maybe_unused]],
+    jobject lj_AmsNetId [[maybe_unused]]) {
+#ifdef USE_OPENSOURCE_ADSLIB
+    // convert the parameters to cpp value types and make the ADS call
+    AmsNetId NetId;
+    PAmsNetId pNetId = &NetId;
+
+    JObjAmsNetId lJObjAmsNetId(env, lj_AmsNetId);
+    lJObjAmsNetId.getValuesOutJObject(pNetId);
+
+    // ADS call
+    bhf::ads::SetLocalAddress(NetId);
+    return ADSERR_NOERR;
+#else
+    // only supported with the open-source ADS lib
+    // (https://github.com/Beckhoff/ADS)
+    return ADSERR_DEVICE_SRVNOTSUPP;
+#endif
+}
 
 // AdsGetDllVersion
 JNIEXPORT auto JNICALL
@@ -489,7 +570,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadDeviceInfoReq(
 
     // ADS call
     std::string devName(DEVICE_NAME_MAX_LEN, '\0');
-    AdsVersion version;
+    AdsVersion version = {0, 0, 0};
     nErr = AdsSyncReadDeviceInfoReq(pAddr, devName.data(), &version);
 
     // Convert the result and assign it to the according java parameter
@@ -557,7 +638,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncGetTimeout(
     jobject lj_pMs) -> jlong // Get timeout in ms
 {
     // ADS call
-    LONG data = 0;
+    ADS_TIMEOUT data = 0;
     const long nErr = AdsSyncGetTimeout(&data);
 
     // Convert the result and assign it to the according java parameter
@@ -576,8 +657,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncSetTimeout(
     jlong lj_nMs) -> jlong // Set timeout in ms
 {
     // ADS call
-    const long nErr = static_cast<jlong>(
-        AdsSyncSetTimeout(static_cast<ADS_INT32_OR_LONG>(lj_nMs)));
+    const long nErr =
+        static_cast<jlong>(AdsSyncSetTimeout(static_cast<ADS_TIMEOUT>(lj_nMs)));
     return nErr;
 }
 
@@ -596,7 +677,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncAddDeviceNotificatio
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    AdsNotificationAttrib lcpp_adsNotificationAttrib;
+    AdsNotificationAttrib lcpp_adsNotificationAttrib = {
+        0, ADSTRANS_NOTRANS, 0, {0}};
 
     JObjAmsAddr lJObjAmsAddr(env, lj_pAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
@@ -1056,12 +1138,11 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncReadDeviceInfoReqEx(
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
     const auto lcpp_nPort = static_cast<ADS_INT32_OR_LONG>(lj_nPort);
-    AdsVersion version;
-
     JObjAmsAddr lJObjAmsAddr(env, lj_AmsAddr);
     lJObjAmsAddr.getValuesOutJObject(pAddr);
 
     // ADS call
+    AdsVersion version = {0, 0, 0};
     std::string devName(DEVICE_NAME_MAX_LEN, '\0');
     const long nErr =
         AdsSyncReadDeviceInfoReqEx(lcpp_nPort, pAddr, devName.data(), &version);
@@ -1135,7 +1216,7 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncGetTimeoutEx(
     jobject lj_pMs) -> jlong // Get timeout in ms
 {
     // ADS call
-    LONG data = 0;
+    ADS_TIMEOUT data = 0;
     const long nErr =
         AdsSyncGetTimeoutEx(static_cast<ADS_INT32_OR_LONG>(lj_nPort), &data);
 
@@ -1177,7 +1258,8 @@ Java_de_beckhoff_jni_tcads_AdsCallDllFunction_callDllAdsSyncAddDeviceNotificatio
     // convert the parameters to cpp value types and make the ADS call
     AmsAddr Addr;
     PAmsAddr pAddr = &Addr;
-    AdsNotificationAttrib lcpp_adsNotificationAttrib;
+    AdsNotificationAttrib lcpp_adsNotificationAttrib = {
+        0, ADSTRANS_NOTRANS, 0, {0}};
     const auto lcpp_nPort = static_cast<ADS_INT32_OR_LONG>(lj_nPort);
 
     JObjAmsAddr lJObjAmsAddr(env, lj_pAddr);

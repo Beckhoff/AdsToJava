@@ -1,0 +1,3 @@
+[submodule "ADS"]
+	path = adslib_for_linux
+	url = https://github.com/Beckhoff/ADS.git

@@ -2,6 +2,7 @@ Checks: >
   *,
   -google-runtime-int,
   -fuchsia-trailing-return,
+  -fuchsia-default-arguments-calls,
   -hicpp-vararg,
   -cppcoreguidelines-pro-type-vararg,
   -cppcoreguidelines-pro-type-union-access,

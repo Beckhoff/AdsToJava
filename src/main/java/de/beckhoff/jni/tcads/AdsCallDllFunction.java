@@ -798,6 +798,16 @@ public class AdsCallDllFunction {
         return new AdsCallbackObject(adsCallbackObject);
     }
 
+    static private native long callDllAddLocalRoute(
+        Object lj_AmsNetId, // AMS NetId of ADS server
+        String lj_IpAddr);  // IP address, where the ADS server can be found
+
+    static private native long
+    callDllDelLocalRoute(Object lj_AmsNetId); // AMS NetId of ADS server
+
+    static private native long
+    callDllSetLocalAddress(Object lj_AmsNetId); // AMS NetId of ADS server
+
     static private native long
     callDllAdsGetDllVersion(AdsVersion lj_AdsVersion);
 
@@ -1455,6 +1465,71 @@ public class AdsCallDllFunction {
     ///////////////////////////////////////////////////////
     // Java wrapper for AdsCallDllFunctionEx
     ///////////////////////////////////////////////////////
+
+    /**
+     * Associate an AMS NetId of an ADS server with the IP address where the
+     * ADS server can be found.
+     *
+     * @param lj_AmsNetId
+     *      de.beckhoff.jni.tcads.AmsNetId object containing the NetId of the
+     *      ADS server.
+     * @param lj_IpAddr
+     *      IP address, where the ADS server can be found.
+     * @return
+     *      a long value containing the ADSERR.
+     */
+    static public long adsAddLocalRoute(AmsNetId lj_AmsNetId,
+                                        String lj_IpAddr) {
+        if (lj_AmsNetId == null)
+            return ADSERR_INV_AMS_NETID;
+
+        if (AdsCallDllFunction.jniWrapperDllVersionNot1()) {
+            return callDllAddLocalRoute(lj_AmsNetId, lj_IpAddr);
+        } else {
+            return ADSERR_SRVICE_NOT_SUPP;
+        }
+    }
+
+    /**
+     * Remove an association between an AMS NetId and an IP address.
+     *
+     * @param lj_AmsNetId
+     *      de.beckhoff.jni.tcads.AmsNetId object containing the NetId of the
+     *      ADS server.
+     * @return
+     *      a long value containing the ADSERR.
+     */
+    static public long adsDelLocalRoute(AmsNetId lj_AmsNetId) {
+        if (lj_AmsNetId == null)
+            return ADSERR_INV_AMS_NETID;
+
+        if (AdsCallDllFunction.jniWrapperDllVersionNot1()) {
+            return callDllDelLocalRoute(lj_AmsNetId);
+        } else {
+            return ADSERR_SRVICE_NOT_SUPP;
+        }
+    }
+
+    /**
+     * Can be used to adjust the local AMS NetID if the automatic AmsNetId
+     * deduction is not working as expected.
+     *
+     * @param lj_AmsNetId
+     *      de.beckhoff.jni.tcads.AmsNetId object containing the NetId of the
+     *      ADS server.
+     * @return
+     *      a long value containing the ADSERR.
+     */
+    static public long adsSetLocalAddress(AmsNetId lj_AmsNetId) {
+        if (lj_AmsNetId == null)
+            return ADSERR_INV_AMS_NETID;
+
+        if (AdsCallDllFunction.jniWrapperDllVersionNot1()) {
+            return callDllSetLocalAddress(lj_AmsNetId);
+        } else {
+            return ADSERR_SRVICE_NOT_SUPP;
+        }
+    }
 
     /**
      * Establishes a connection (communication port) to the TwinCAT message

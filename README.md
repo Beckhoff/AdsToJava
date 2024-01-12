@@ -2,6 +2,7 @@
 
 This library is intended for use in ADS client applications written in the Java
 programming language. It was tested on Windows 10 and Tc/BSD 13.2.
+The Linux support is still in the beta phase, as detailed below.
 
 **It consists of two parts:**
 
@@ -104,16 +105,59 @@ Overview of the folder structure of this repository:
 
 ```txt
 .
-├── .vscode  # Configuration files for Visual Studio Code
-├── dist     # Generated documentation, compiled library and samples
-├── run      # Helper scripts
-├── cpp      # C++ source files
-├── src      # Java source files and tests
-├── samples  # Java source files for the samples
-├── build*   # Full C++ build output: x64 (and win32)
-├── target   # Full Java build output including coverage report
-├── plc      # PLC projects for the tests and samples
+├── .vscode          # Configuration files for Visual Studio Code
+├── adslib_for_linux # Contains the open-source ADS library that is used where the TcAdsDll is not available
+├── dist             # Generated documentation, compiled library and samples
+├── run              # Helper scripts
+├── cpp              # C++ source files
+├── src              # Java source files and tests
+├── samples          # Java source files for the samples
+├── build*           # Full C++ build output: x64 (and win32)
+├── target           # Full Java build output including coverage report
+├── plc              # PLC projects for the tests and samples
 ```
+
+## Status of the Linux support
+
+Beckhoff has an [open-source ADS library](ttps://github.com/Beckhoff/ADS) that
+provides an API to communicate with TwinCAT devices via TCP/IP.
+This makes it possible to port the "AdsToJava" library to systems without "TcAdsDll" support.
+
+**Current status:** Everything compiles, the [02](/samples/adslib/02_AccessByVariableName/) sample was updated to work with the open-source ADS library on Linux.
+
+**Known limitations:**
+
+1. For many functions, the open-source ADS library only supports the newer version (`*Ex`, or `*Ex2`).
+1. `AdsGetDllVersion`, `AdsGetLocalAddress`, `AdsAmsPortEnabled*`,
+   `AdsAmsRegisterRouterNotification`, and `AdsAmsUnRegisterRouterNotification`
+   are not supported by the open-source ADS library.
+
+**Getting started:**
+
+The open-source ADS library was added as a Git submodule called "adslib_for_linux".
+Execute this command after cloning this repository to download the contents of the submodule:
+
+```bash
+git submodule update --init --recursive
+```
+
+It is compiled automatically by the `bootstrap.sh`, you don't need to do that yourself.
+
+Since there is no TwinCAT AMS Router on systems without "TcAdsDll" support,
+you have to use `adsAddLocalRoute` to define the association between the AMS NetId
+and IP address on your target system. This is, for example, demonstrated in the
+[this](/samples/adslib/02_AccessByVariableName/) sample.
+
+You need an ADS route between your Linux system and your target system.
+If you don't have a route, the target system will refuse your ADS connection.
+Adding routes is explained elsewhere, here are a few resources for you:
+
+- https://github.com/Beckhoff/ADS?tab=readme-ov-file#prepare-your-target-to-run-the-example
+- A simple option is to use the **adstool**:
+
+  ```bash
+  ./adslib_for_linux/build/AdsTool/AdsTool <target_ip> addroute --addr=<linux_ip> --netid=<linux_netid> --password=<target_password>
+  ```
 
 ## Contributing
 
