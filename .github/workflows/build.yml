@@ -85,7 +85,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: tcjavatoads
-        path: dist/TcJavaToAds-3.0.0.jar
+        path: dist/TcJavaToAds-3.1.0.jar
         retention-days: 3
 
   build-ubuntu:
@@ -177,19 +177,19 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: 3.0.0-${{ github.run_number }}
-        release_name: 3.0.0-${{ github.run_number }}
+        tag_name: 3.1.0-${{ github.run_number }}
+        release_name: 3.1.0-${{ github.run_number }}
         generate_release_notes: true
 
-    - name: 'Upload release asset: TcJavaToAds-3.0.0.jar'
+    - name: 'Upload release asset: TcJavaToAds-3.1.0.jar'
       if: github.ref == 'refs/heads/main'
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./TcJavaToAds-3.0.0.jar
-        asset_name: TcJavaToAds-3.0.0.jar
+        asset_path: ./TcJavaToAds-3.1.0.jar
+        asset_name: TcJavaToAds-3.1.0.jar
         asset_content_type: application/java-archive
     - name: 'Upload release asset: documentation.zip'
       if: github.ref == 'refs/heads/main'

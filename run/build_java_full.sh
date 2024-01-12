@@ -25,4 +25,4 @@ mvn spotbugs:check -f "pom.xml"
 # (https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
 mvn package -f "pom.xml"
 
-cp ./target/TcJavaToAds-3.0.0.jar ./dist/
+cp ./target/TcJavaToAds-3.1.0.jar ./dist/
