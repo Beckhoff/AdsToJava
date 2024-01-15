@@ -159,6 +159,23 @@ Adding routes is explained elsewhere, here are a few resources for you:
   ./adslib_for_linux/build/AdsTool/AdsTool <target_ip> addroute --addr=<linux_ip> --netid=<linux_netid> --password=<target_password>
   ```
 
+## Platform support diagram
+
+```mermaid
+flowchart LR
+    subgraph AdsToJava["AdsToJava-3.dll"]
+    end
+    subgraph libAdsToJava["libAdsToJava-3.so"]
+    end
+    subgraph TcJavaToAds["TcJavaToAds-3.1.0.jar"]
+    end
+    TcJavaToAds --"Windows"--> AdsToJava
+    TcJavaToAds --> libAdsToJava
+    AdsToJava --> TcAdsDll.dll
+    libAdsToJava --"Linux"--> libads.so
+    libAdsToJava --"Tc/BSD"--> libTcAdsDll.so
+```
+
 ## Contributing
 
 The main purpose of this repository is to continue evolving this
