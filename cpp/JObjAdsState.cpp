@@ -1,4 +1,6 @@
 #include "JObjAdsState.h"
+#include "JObjectBase.h"
+#include "jni.h"
 
 JObjAdsState::JObjAdsState(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}

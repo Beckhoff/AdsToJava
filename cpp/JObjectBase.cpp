@@ -1,5 +1,7 @@
 #include "JObjectBase.h"
 #include "jni.h"
+#include "jni_md.h"
+#include <cstdint>
 
 JObjectBase::JObjectBase(JNIEnv* lEnv, jobject lJObject)
     : mEnv(lEnv), mJObject(lJObject), mJClass(lEnv->GetObjectClass(lJObject)) {}

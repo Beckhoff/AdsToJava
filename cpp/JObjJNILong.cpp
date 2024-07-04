@@ -1,4 +1,7 @@
 #include "JObjJNILong.h"
+#include "JObjectBase.h"
+#include "jni.h"
+#include "jni_md.h"
 
 JObjJNILong::JObjJNILong(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}

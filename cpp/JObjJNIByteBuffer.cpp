@@ -1,4 +1,6 @@
 #include "JObjJNIByteBuffer.h"
+#include "JObjectBase.h"
+#include "jni.h"
 
 JObjJNIByteBuffer::JObjJNIByteBuffer(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
