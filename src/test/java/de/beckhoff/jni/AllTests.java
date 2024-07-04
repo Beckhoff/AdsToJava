@@ -57,7 +57,7 @@ public class AllTests extends TestCase {
     public static final long INDEX_OFF7 = 0x30;
 
     public static final short DEVICE_PORT = 851;
-    public static final String DEVICE_AMSADDR = "172.17.62.64.1.1";
+    public static final String DEVICE_AMSADDR = "127.0.0.1.1.1";
     public static final String DEVICE_NAME = "Plc30 App"; // TCatPlcCtrl
     public static final String EMPTY_DEVICE_NAME = "";
 
