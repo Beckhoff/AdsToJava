@@ -1,11 +1,14 @@
 #include "StdAfx.h"
 #ifdef USE_OPENSOURCE_ADSLIB
 #include "AdsLib.h"
+#include "standalone/AdsDef.h"
+#include "standalone/AdsLib.h"
 #else
 #include "TcAdsAPI.h"
 #endif
 
 #include "jni.h"
+#include "jni_md.h"
 
 #include "AdsToJava.h"
 #include "JObjAdsDevName.h"
@@ -14,13 +17,16 @@
 #include "JObjAdsState.h"
 #include "JObjAdsVersion.h"
 #include "JObjAmsAddr.h"
+#include "JObjAmsNetId.h"
 
 #include "JObjJNIBool.h"
 #include "JObjJNIByteBuffer.h"
 #include "JObjJNILong.h"
-#include <array>
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <exception>
 #include <limits>
-#include <memory>
 #include <string>
 #include <vector>
 #ifndef POSIX

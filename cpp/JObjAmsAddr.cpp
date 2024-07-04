@@ -1,4 +1,15 @@
 #include "JObjAmsAddr.h"
+#include "JObjAmsNetId.h"
+#include "JObjectBase.h"
+#include "StdAfx.h"
+#include "jni.h"
+#include "jni_md.h"
+#ifdef USE_OPENSOURCE_ADSLIB
+#include "standalone/AdsDef.h"
+#else
+#include "TcAdsAPI.h"
+#endif
+#include <cstddef>
 #include <limits>
 #include <string>
 

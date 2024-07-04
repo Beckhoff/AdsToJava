@@ -1,4 +1,11 @@
 #include "JObjAdsVersion.h"
+#include "JObjectBase.h"
+#include "jni.h"
+#ifdef USE_OPENSOURCE_ADSLIB
+#include "standalone/AdsDef.h"
+#else
+#include "TcAdsAPI.h"
+#endif
 
 JObjAdsVersion::JObjAdsVersion(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}

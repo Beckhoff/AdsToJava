@@ -1,4 +1,13 @@
 #include "JObjAdsNotificationHeader.h"
+#include "JObjectBase.h"
+#include "jni.h"
+#include "jni_md.h"
+#ifdef USE_OPENSOURCE_ADSLIB
+#include "standalone/AdsDef.h"
+#else
+#include "TcAdsAPI.h"
+#endif
+#include <cstdint>
 
 JObjAdsNotificationHeader::JObjAdsNotificationHeader(JNIEnv* lEnv,
                                                      jobject lJObject)

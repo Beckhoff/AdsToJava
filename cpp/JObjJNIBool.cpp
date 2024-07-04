@@ -1,4 +1,6 @@
 #include "JObjJNIBool.h"
+#include "JObjectBase.h"
+#include "jni.h"
 
 JObjJNIBool::JObjJNIBool(JNIEnv* lEnv, jobject lJObject)
     : JObjectBase(lEnv, lJObject) {}
