@@ -138,31 +138,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download artifact tcjavatoads
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: tcjavatoads
     - name: Download artifact samples-tcadsdll
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: samples-tcadsdll
     - name: Download artifact samples-adslib
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: samples-adslib
     - name: Download artifact documentation
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: documentation
     - name: Download artifact win-x64
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: win-x64
     - name: Download artifact win-x86
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: win-x86
     - name: Download artifact linux-x64
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: linux-x64
 
