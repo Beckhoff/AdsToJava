@@ -3,7 +3,7 @@ name: Build everything (and create a release)
 on: push
 
 env:
-  JAVA_VERSION: '8'
+  JAVA_VERSION: '21'
 
 jobs:
   build-windows:
@@ -11,7 +11,7 @@ jobs:
     environment: dev
     steps:
     - name: 'Checkout GitHub action'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v1
@@ -58,31 +58,31 @@ jobs:
         Compress-Archive -Path build_win32\Release\AdsToJava-3.dll -DestinationPath dist\win-x86.zip
 
     - name: Upload .jar files of the TcAdsDll samples as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: samples-tcadsdll
         path: dist/samples-tcadsdll.zip
         retention-days: 3
     - name: Upload documentation archive as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: documentation
         path: dist/documentation.zip
         retention-days: 3
     - name: Upload win-x64 binaries as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: win-x64
         path: dist/win-x64.zip
         retention-days: 3
     - name: Upload win-x86 binaries as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: win-x86
         path: dist/win-x86.zip
         retention-days: 3
     - name: Upload the TcJavaToAds library as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: tcjavatoads
         path: dist/TcJavaToAds-3.1.0.jar
@@ -93,13 +93,14 @@ jobs:
     environment: dev
     steps:
     - name: 'Checkout GitHub action'
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: 'true'   
 
     - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v4
       with:
+        distribution: 'zulu'
         java-version: ${{ env.JAVA_VERSION }}
   
     - name: Install other dependencies as ubuntu packages
@@ -120,13 +121,13 @@ jobs:
         zip --junk-paths ./dist/samples-adslib.zip ./dist/*_adslib.jar
 
     - name: Upload .jar files of the adslib samples as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: samples-adslib
         path: dist/samples-adslib.zip
         retention-days: 3
     - name: Upload linux-x64 binaries as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: linux-x64
         path: dist/linux-x64.zip
