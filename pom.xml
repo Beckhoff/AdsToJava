@@ -25,13 +25,13 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.8.2.0</version>
+        <version>4.8.6.1</version>
         <configuration>
           <plugins>
             <plugin>
               <groupId>com.h3xstream.findsecbugs</groupId>
               <artifactId>findsecbugs-plugin</artifactId>
-              <version>1.12.0</version>
+              <version>1.13.0</version>
             </plugin>
           </plugins>
         </configuration>
@@ -39,7 +39,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
+        <version>0.8.12</version>
         <executions>
           <execution>
             <goals>
